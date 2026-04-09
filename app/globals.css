@@ -1,26 +1,164 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg:        #0c0b09;
+  --bg-2:      #161410;
+  --bg-card:   #1e1b16;
+  --fg:        #e8e0d4;
+  --muted:     #8a8076;
+  --accent:    #c4a97d;
+  --border:    rgba(196, 169, 125, 0.18);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --font-sans:   var(--font-geist-sans);
+  --font-serif:  var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-geist-sans), 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* ── Animations ── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.anim-fade-up    { animation: fadeSlideUp 0.9s cubic-bezier(.22,.61,.36,1) both; }
+.anim-fade-in    { animation: fadeIn      0.7s ease both; }
+.anim-slide-down { animation: slideDown   0.5s ease both; }
+.anim-d1 { animation-delay: 0.15s; }
+.anim-d2 { animation-delay: 0.35s; }
+.anim-d3 { animation-delay: 0.6s;  }
+.anim-d4 { animation-delay: 0.85s; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── Horizontal scroll utility ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Semantic theme utility classes (CSS var-driven, auto-switch with theme) ── */
+.th-bg    { background-color: var(--bg); }
+.th-bg-2  { background-color: var(--bg-2); }
+.th-card  { background-color: var(--bg-card); }
+.th-fg    { color: var(--fg); }
+.th-muted { color: var(--muted); }
+.th-gold  { color: var(--accent); }
+
+/* ════════════════════════════════
+   LIGHT MODE  (html.light toggled by ThemeProvider)
+   !important ensures these beat Tailwind utility layers
+   ════════════════════════════════ */
+html.light {
+  --bg:      #f0f0f0;
+  --bg-2:    #f0e8db;
+  --bg-card: #e6ddd0;
+  --fg:      #1a1612;
+  --muted:   #6b6258;
+  --accent:  #8a6a3a;
+  --border:  rgba(26, 22, 18, 0.18);
+}
+
+html.light body {
+  background: #f0f0f0 !important;
+  color: #1a1612 !important;
+}
+
+/* ── Backgrounds ── */
+html.light .bg-\[\#0c0b09\]      { background-color: #f0f0f0 !important; }
+html.light .bg-\[\#0a0907\]      { background-color: #f0e8db !important; }
+html.light .bg-\[\#161410\]      { background-color: #ede5d8 !important; }
+html.light .bg-\[\#1e1b16\]      { background-color: #e6ddd0 !important; }
+html.light .bg-\[\#0c0b09\]\/90  { background-color: rgba(240,240,240,0.92) !important; }
+html.light .bg-\[\#0c0b09\]\/96  { background-color: rgba(240,240,240,0.96) !important; }
+
+/* ── Header: solid warm white ── */
+html.light header {
+  background-color: rgba(240,240,240,0.97) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* ── Text ── */
+html.light .text-\[\#e8e0d4\] { color: #1a1612 !important; }
+html.light .text-\[\#8a8076\] { color: #6b6258 !important; }
+html.light .text-\[\#c4a97d\] { color: #8a6a3a !important; }
+html.light .text-\[\#0c0b09\] { color: #f0f0f0 !important; }
+
+/* ── Borders ── */
+html.light .border-\[rgba\(196\,169\,125\,0\.1\)\]  { border-color: rgba(26,22,18,0.10) !important; }
+html.light .border-\[rgba\(196\,169\,125\,0\.12\)\] { border-color: rgba(26,22,18,0.13) !important; }
+html.light .border-\[rgba\(196\,169\,125\,0\.15\)\] { border-color: rgba(26,22,18,0.15) !important; }
+html.light .border-\[rgba\(196\,169\,125\,0\.18\)\] { border-color: rgba(26,22,18,0.18) !important; }
+html.light .border-\[rgba\(196\,169\,125\,0\.2\)\]  { border-color: rgba(26,22,18,0.20) !important; }
+html.light .border-\[rgba\(196\,169\,125\,0\.4\)\]  { border-color: rgba(26,22,18,0.40) !important; }
+html.light .border-\[\#c4a97d\]                     { border-color: #8a6a3a !important; }
+
+/* ── Hover ── */
+html.light .hover\:text-\[\#c4a97d\]:hover    { color: #8a6a3a !important; }
+html.light .hover\:border-\[\#c4a97d\]:hover  { border-color: #8a6a3a !important; }
+html.light .hover\:text-\[\#e8e0d4\]:hover    { color: #1a1612 !important; }
+html.light .hover\:bg-\[\#c4a97d\]:hover      { background-color: #8a6a3a !important; }
+html.light .hover\:text-\[\#0c0b09\]:hover    { color: #f0f0f0 !important; }
+html.light .hover\:bg-gray-800:hover          { background-color: #3a3530; }
+
+/* ── Select options dropdown ── */
+html.light select option { background: #f0e8db; color: #1a1612; }
+
+/* ─────────────────────────────────────────────
+   DARK ZONES — always stay dark regardless of theme
+   ───────────────────────────────────────────── */
+
+/* Loading Splash */
+html.light #splash-root                          { background-color: #0c0b09 !important; color: inherit; }
+html.light #splash-root .bg-\[\#0c0b09\]         { background-color: #0c0b09 !important; }
+html.light #splash-root .text-\[\#e8e0d4\]       { color: #e8e0d4 !important; }
+html.light #splash-root .text-\[\#8a8076\]       { color: #8a8076 !important; }
+html.light #splash-root .text-\[\#c4a97d\]       { color: #c4a97d !important; }
+html.light #splash-root .border-\[\#c4a97d\]     { border-color: #c4a97d !important; }
+
+/* Hero slider */
+html.light #hero-section .text-\[\#e8e0d4\]                  { color: #e8e0d4 !important; }
+html.light #hero-section .text-\[\#8a8076\]                  { color: rgba(255,255,255,0.55) !important; }
+html.light #hero-section .text-\[\#c4a97d\]                  { color: #c4a97d !important; }
+html.light #hero-section .border-\[\#c4a97d\]                { border-color: #c4a97d !important; }
+html.light #hero-section .hover\:bg-\[\#c4a97d\]:hover       { background-color: #c4a97d !important; }
+html.light #hero-section .hover\:text-\[\#0c0b09\]:hover     { color: #0c0b09 !important; }
+html.light #hero-section .hover\:text-\[\#e8e0d4\]:hover     { color: #e8e0d4 !important; }
+html.light #hero-section .hover\:border-\[\#e8e0d4\]:hover   { border-color: #e8e0d4 !important; }
+html.light #hero-section button                               { background: transparent; }
+
+/* About page hero */
+html.light #about-hero .text-\[\#e8e0d4\] { color: #e8e0d4 !important; }
+html.light #about-hero .text-\[\#c4a97d\] { color: #c4a97d !important; }
+
+/* Featured collection banners (dark gradient, self-contained) */
+html.light .featured-banner .text-\[\#e8e0d4\] { color: #e8e0d4 !important; }
+html.light .featured-banner .text-\[\#8a8076\] { color: rgba(255,255,255,0.6) !important; }
+html.light .featured-banner .text-\[\#c4a97d\] { color: #c4a97d !important; }
+html.light .featured-banner .border-\[\#c4a97d\] { border-color: #c4a97d !important; }
+html.light .featured-banner .hover\:text-\[\#e8e0d4\]:hover { color: #e8e0d4 !important; }
+html.light .featured-banner .hover\:border-\[\#e8e0d4\]:hover { border-color: #e8e0d4 !important; }
