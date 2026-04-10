@@ -11,6 +11,8 @@ export type Product = {
   seasons: string[];
   bestSeller?: boolean;
   sizes: DecantSize[];
+  inspiredBy?: { name: string; house: string };
+  description?: string;
 };
 
 export const LINES = ["All", "Arabian", "Designer", "Niche"] as const;
@@ -35,6 +37,8 @@ export const products: Product[] = [
     occasions: ["Night", "Date"],
     seasons: ["Fall", "Winter"],
     bestSeller: true,
+    inspiredBy: { name: "Love, Don't Be Shy", house: "Kilian" },
+    description: "A rich, candy-like oriental that opens with sweet amber and praline before settling into a warm vanillic embrace. Widely regarded as a near-identical dupe of Kilian's Love, Don't Be Shy at a fraction of the price.",
     sizes: [{ ml: 5, price: 315 }, { ml: 9, price: 511 }, { ml: 15, price: 768 }],
   },
   {
@@ -47,6 +51,7 @@ export const products: Product[] = [
     occasions: ["Night"],
     seasons: ["Fall", "Winter"],
     bestSeller: true,
+    description: "A coffee-forward oriental that blends rich Arabic qahwa with Khamrah's signature sweetness. Intense, warming, and deeply Middle Eastern in character.",
     sizes: [{ ml: 5, price: 339 }, { ml: 9, price: 549 }, { ml: 15, price: 828 }],
   },
   {
@@ -59,6 +64,8 @@ export const products: Product[] = [
     occasions: ["Day", "Evening", "Signature"],
     seasons: ["Spring", "Summer", "Fall", "Winter"],
     bestSeller: true,
+    inspiredBy: { name: "Portrait of a Lady", house: "Frédéric Malle" },
+    description: "A bold floral-oriental with saffron-laced rose at its heart. An accessible take on the iconic Portrait of a Lady DNA — dramatic, long-lasting, and universally flattering.",
     sizes: [{ ml: 5, price: 319 }, { ml: 9, price: 517 }, { ml: 15, price: 778 }],
   },
   {
@@ -71,6 +78,8 @@ export const products: Product[] = [
     occasions: ["Evening", "Formal", "Signature"],
     seasons: ["Fall", "Winter"],
     bestSeller: true,
+    inspiredBy: { name: "Royal Oud", house: "Creed" },
+    description: "A regal oud-rose composition that channels the grandeur of Creed Royal Oud. Layers of smoky oud, Bulgarian rose, and warm amber make this a statement fragrance for formal occasions.",
     sizes: [{ ml: 5, price: 496 }, { ml: 9, price: 837 }, { ml: 15, price: 1273 }],
   },
   {
@@ -83,6 +92,8 @@ export const products: Product[] = [
     occasions: ["Day"],
     seasons: ["Spring", "Summer"],
     bestSeller: true,
+    inspiredBy: { name: "Acqua di Gio Profumo", house: "Giorgio Armani" },
+    description: "A fresh aquatic powerhouse with a magnetic ambergris base. Widely considered the best dupe of Acqua di Gio Profumo — same DNA at a fraction of the cost, with arguably better longevity.",
     sizes: [{ ml: 5, price: 340 }, { ml: 9, price: 560 }, { ml: 15, price: 837 }],
   },
   {
@@ -95,6 +106,8 @@ export const products: Product[] = [
     occasions: ["Day", "Evening", "Signature"],
     seasons: ["Spring", "Summer", "Fall", "Winter"],
     bestSeller: false,
+    inspiredBy: { name: "Acqua di Gio Profondo", house: "Giorgio Armani" },
+    description: "The warmer, smokier sibling of Hawas. A deep aquatic with incense and jasmine accords — mirrors the DNA of Acqua di Gio Profondo with added Middle Eastern richness.",
     sizes: [{ ml: 5, price: 430 }, { ml: 9, price: 710 }, { ml: 15, price: 1072 }],
   },
   {
@@ -107,6 +120,8 @@ export const products: Product[] = [
     occasions: ["Evening", "Night"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
+    inspiredBy: { name: "Ultra Male", house: "Jean Paul Gaultier" },
+    description: "A seductive evening fragrance built around sweet amber and vanilla — a highly accessible alternative to JPG Ultra Male with remarkable longevity and projection.",
     sizes: [{ ml: 5, price: 361 }, { ml: 9, price: 594 }, { ml: 15, price: 897 }],
   },
   {
@@ -119,6 +134,8 @@ export const products: Product[] = [
     occasions: ["Evening", "Formal"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
+    inspiredBy: { name: "Ultra Male Elixir", house: "Jean Paul Gaultier" },
+    description: "A darker, more intense interpretation of the 9PM lineage. The sandalwood and tonka bean base adds a sophisticated creaminess that echoes JPG Ultra Male Elixir.",
     sizes: [{ ml: 5, price: 461 }, { ml: 9, price: 773 }, { ml: 15, price: 1174 }],
   },
   {
@@ -217,6 +234,8 @@ export const products: Product[] = [
     occasions: ["Casual", "Evening", "Night", "Signature"],
     seasons: ["Spring", "Summer", "Fall"],
     bestSeller: true,
+    inspiredBy: { name: "Aventus", house: "Creed" },
+    description: "The legendary Creed Aventus dupe that took the world by storm. Shares Aventus's iconic pineapple-birch-smoke DNA at a deeply accessible price point. Consistently ranked among the best value fragrances available.",
     sizes: [{ ml: 5, price: 425 }, { ml: 9, price: 700 }, { ml: 15, price: 1075 }],
   },
   {

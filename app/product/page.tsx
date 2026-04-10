@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { products, LINES, GENDERS, type Line, type Gender, type Product, type DecantSize } from "../lib/products";
 import { fadeUp, fadeIn, stagger, staggerFast, scaleIn, slideLeft } from "../lib/motion";
@@ -18,6 +19,7 @@ function ProductCard({ p }: { p: Product }) {
 
   return (
     <motion.div className="group" variants={scaleIn} whileHover={{ y: -4 }} transition={{ duration: 0.25 }}>
+      <Link href={`/product/${p.id}`} className="block">
       {/* Image block */}
       <div className="aspect-[3/4] overflow-hidden th-card mb-4 relative">
         <div className="w-full h-full th-card transition-transform duration-500 group-hover:scale-105" />
@@ -55,13 +57,14 @@ function ProductCard({ p }: { p: Product }) {
       <p className="text-[8px] text-[#8a8076] mb-3 line-clamp-1">
         {p.notes.slice(0, 3).join(" · ")}
       </p>
+      </Link>
 
       {/* Decant size chips */}
       <div className="flex flex-wrap gap-[5px] mb-2">
         {p.sizes.map((s) => (
           <button
             key={s.ml}
-            onClick={() => setSelected(s)}
+            onClick={(e) => { e.stopPropagation(); setSelected(s); }}
             className={`text-[8px] tracking-wider px-[7px] py-[4px] border transition-all ${
               selected.ml === s.ml
                 ? "border-[#c4a97d] text-[#c4a97d] bg-[rgba(196,169,125,0.08)]"

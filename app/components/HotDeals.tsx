@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion, useAnimationFrame } from "framer-motion";
 import { products } from "../lib/products";
@@ -87,9 +88,10 @@ export default function HotDeals() {
       >
         <div ref={trackRef} className="flex gap-5 w-max py-4">
         {track.map(({ product, size, original, sale, discount }, i) => (
-          <div
+          <Link
             key={`${product.id}-${i}`}
-            className="group relative flex-shrink-0 w-52 sm:w-60 cursor-pointer"
+            href={`/product/${product.id}`}
+            className="group relative flex-shrink-0 w-52 sm:w-60"
           >
             {/* Card */}
             <div className="aspect-[3/4] th-card overflow-hidden relative mb-4 transition-transform duration-500 group-hover:scale-[1.02]">
@@ -139,7 +141,7 @@ export default function HotDeals() {
               <span className="text-[13px] text-[#c4a97d] tracking-wider font-medium">৳{sale}</span>
               <span className="text-[9px] text-[#8a8076] line-through">৳{original}</span>
             </div>
-          </div>
+          </Link>
         ))}
         </div>
       </div>

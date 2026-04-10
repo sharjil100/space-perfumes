@@ -149,7 +149,7 @@ export default function Home() {
               {bestsellers.map((p) => (
                 <motion.div key={p.id} variants={fadeUp}>
                   <Link
-                    href="/product"
+                    href={`/product/${p.id}`}
                     className="group flex-shrink-0 w-48 lg:w-auto block"
                   >
                     <div className="aspect-[3/4] overflow-hidden th-card mb-4 relative">

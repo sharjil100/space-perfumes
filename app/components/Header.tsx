@@ -294,7 +294,7 @@ export default function Header() {
               {results.map((p) => (
                 <li key={p.id}>
                   <Link
-                    href="/product"
+                    href={`/product/${p.id}`}
                     onClick={handleResultClick}
                     className="flex items-center justify-between py-4 group hover:pl-1 transition-all duration-200"
                   >
