@@ -21,6 +21,10 @@ export default function ScrollBottleSection() {
   const glowOpacity = useTransform(scrollYProgress, [0.72, 0.95], [0, 1]);
   const glowScale = useTransform(scrollYProgress, [0.72, 0.95], [0.4, 1]);
 
+  // Shadow grows as bottle lands
+  const shadowOpacity = useTransform(scrollYProgress, [0, 0.6, 0.9], [0, 0.2, 0.6]);
+  const shadowScaleX = useTransform(scrollYProgress, [0, 0.6, 0.9], [0.1, 0.5, 1]);
+
   // Text fades in after bottle lands
   const textOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
   const textY = useTransform(scrollYProgress, [0.8, 1], [20, 0]);
@@ -50,11 +54,24 @@ export default function ScrollBottleSection() {
           className="relative z-10 flex flex-col items-center"
         >
           <img
-            src="/hero-bottle.png"
+            src="/hero-bottle-3.png"
             alt="Space Perfumes signature bottle"
             className="w-[260px] sm:w-[320px] md:w-[400px] lg:w-[480px] drop-shadow-2xl"
             draggable={false}
           />
+          {/* Contact shadow under bottle base */}
+          <motion.div
+            style={{ opacity: shadowOpacity, scaleX: shadowScaleX }}
+            className="w-[160px] sm:w-[200px] md:w-[260px] h-5 rounded-full -mt-3 pointer-events-none"
+          >
+            <div
+              className="w-full h-full rounded-full"
+              style={{
+                background: "radial-gradient(ellipse, rgba(196,169,125,0.55) 0%, rgba(100,70,30,0.18) 50%, transparent 75%)",
+                filter: "blur(8px)",
+              }}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Landing mist / glow under the bottle */}
