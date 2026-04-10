@@ -10,7 +10,7 @@ import { fadeUp, stagger } from "../lib/motion";
 const PRODUCT_IMAGES: Record<string, string> = {
   "khamrah":      "/khamrah.png",
   "sauvage-edp":  "/sauvage-edp.png",
-  "hawas":        "/Hawas.png",
+  "hawas":        "/hawas.png",
   "eros-edp":     "/eros-edp.png",
   "y-edp":        "/y-edp.png",
 };
