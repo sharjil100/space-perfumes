@@ -11,25 +11,11 @@ export default function ScrollBottleSection() {
     offset: ["start end", "end center"],
   });
 
-  // Bottle falls from above and lands with slight overshoot
-  const y = useTransform(
-    scrollYProgress,
-    [0, 0.55, 0.72, 0.82, 0.9],
-    [-420, -40, 14, -6, 0]
-  );
-
-  // Slight tilt while falling, straightens on land
+  // ── Main center bottle ────────────────────────────────────────
+  const y = useTransform(scrollYProgress, [0, 0.55, 0.72, 0.82, 0.9], [-420, -40, 14, -6, 0]);
   const rotate = useTransform(scrollYProgress, [0, 0.7, 0.9], [10, 2, 0]);
-
-  // Opacity fades in as it enters
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-
-  // Scale: tiny overshoot on landing
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.7, 0.82, 0.9],
-    [0.88, 0.97, 1.03, 1]
-  );
+  const scale = useTransform(scrollYProgress, [0, 0.7, 0.82, 0.9], [0.88, 0.97, 1.03, 1]);
 
   // Mist glow expands when bottle lands
   const glowOpacity = useTransform(scrollYProgress, [0.72, 0.95], [0, 1]);
