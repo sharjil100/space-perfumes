@@ -61,6 +61,14 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ── Marquee / infinite scroll ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 28s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
 /* ── Semantic theme utility classes (CSS var-driven, auto-switch with theme) ── */
 .th-bg    { background-color: var(--bg); }
 .th-bg-2  { background-color: var(--bg-2); }

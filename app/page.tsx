@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import HeroSlider from "./components/HeroSlider";
+import ScrollBottleSection from "./components/ScrollBottleSection";
+import MarqueeTicker from "./components/MarqueeTicker";
+import HotDeals from "./components/HotDeals";
 import { products } from "./lib/products";
 import { fadeUp, fadeIn, stagger, scaleIn } from "./lib/motion";
 
@@ -41,6 +44,12 @@ export default function Home() {
 
       {/* ── Hero Slider ── */}
       <HeroSlider />
+
+      {/* ── Scroll Bottle ── */}
+      <ScrollBottleSection />
+
+      {/* ── Marquee ticker ── */}
+      <MarqueeTicker />
 
       {/* ── Tagline banner ── */}
       <motion.section
@@ -172,6 +181,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── Hot Deals ── */}
+      <HotDeals />
 
       {/* ── Brand quote ── */}
       <motion.section

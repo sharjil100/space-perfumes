@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeUp, fadeIn, stagger } from "../lib/motion";
 
 const companyLinks = [
   { label: "About Us", href: "/about" },
@@ -32,10 +36,16 @@ export default function Footer() {
     <footer className="th-bg-2 border-t border-[rgba(196,169,125,0.12)]">
 
       {/* Main grid */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
+      <motion.div
+        className="max-w-7xl mx-auto px-6 lg:px-12 py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+        variants={stagger}
+      >
 
         {/* Brand */}
-        <div>
+        <motion.div variants={fadeUp}>
           <Link
             href="/"
             className="inline-block text-2xl font-light tracking-[0.45em] text-[#e8e0d4] uppercase mb-6 hover:text-[#c4a97d] transition-colors"
@@ -57,10 +67,10 @@ export default function Footer() {
               </a>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Company */}
-        <div>
+        <motion.div variants={fadeUp}>
           <h4 className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase mb-7">Company</h4>
           <ul className="flex flex-col gap-4">
             {companyLinks.map((l) => (
@@ -74,10 +84,10 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* Collections */}
-        <div>
+        <motion.div variants={fadeUp}>
           <h4 className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase mb-7">Collections</h4>
           <ul className="flex flex-col gap-4">
             {shopLinks.map((l) => (
@@ -91,10 +101,10 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* Legal */}
-        <div>
+        <motion.div variants={fadeUp}>
           <h4 className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase mb-7">Support</h4>
           <ul className="flex flex-col gap-4">
             {legalLinks.map((l) => (
@@ -108,11 +118,17 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Bottom bar */}
-      <div className="border-t border-[rgba(196,169,125,0.1)] px-6 lg:px-12 py-6">
+      <motion.div
+        className="border-t border-[rgba(196,169,125,0.1)] px-6 lg:px-12 py-6"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 1 }}
+        variants={fadeIn}
+      >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[9px] tracking-[0.3em] text-[#8a8076] uppercase">
             &copy; {new Date().getFullYear()} Space Perfumes. All rights reserved.
@@ -121,7 +137,7 @@ export default function Footer() {
             Bangladesh
           </p>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }
