@@ -25,8 +25,8 @@ const legalLinks = [
 ];
 
 const socialLinks = [
-  { label: "Instagram", href: "#" },
-  { label: "Facebook", href: "#" },
+  { label: "Instagram", href: "https://www.instagram.com/space__perfumes_" },
+  { label: "Facebook", href: "https://www.facebook.com/people/Space-Perfumes/61573867521816/" },
   { label: "TikTok", href: "#" },
   { label: "LinkedIn", href: "#" },
 ];
@@ -61,6 +61,8 @@ export default function Footer() {
               <a
                 key={s.label}
                 href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[9px] tracking-[0.4em] text-[#8a8076] uppercase hover:text-[#c4a97d] transition-colors"
               >
                 {s.label}

@@ -237,13 +237,20 @@ export default function Header() {
 
         {/* Social row */}
         <div className="flex items-center justify-center gap-8 px-6 py-7 border-t border-[rgba(196,169,125,0.12)]">
-          {["Instagram", "Facebook", "TikTok", "LinkedIn"].map((s) => (
+          {[
+            { label: "Instagram", href: "https://www.instagram.com/space__perfumes_" },
+            { label: "Facebook", href: "https://www.facebook.com/people/Space-Perfumes/61573867521816/" },
+            { label: "TikTok", href: "#" },
+            { label: "LinkedIn", href: "#" },
+          ].map((s) => (
             <a
-              key={s}
-              href="#"
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[9px] tracking-[0.35em] text-[#8a8076] uppercase hover:text-[#c4a97d] transition-colors"
             >
-              {s}
+              {s.label}
             </a>
           ))}
         </div>
