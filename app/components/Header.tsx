@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
+import { products, type Product } from "../lib/products";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -17,10 +19,38 @@ const navLinks = [
 
 export default function Header() {
   const { theme, toggle } = useTheme();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [cartCount] = useState(0);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const results: Product[] = query.trim().length >= 2
+    ? products.filter((p) => {
+        const q = query.toLowerCase();
+        return (
+          p.name.toLowerCase().includes(q) ||
+          p.house.toLowerCase().includes(q) ||
+          p.line.toLowerCase().includes(q) ||
+          p.notes.some((n) => n.toLowerCase().includes(q))
+        );
+      }).slice(0, 8)
+    : [];
+
+  const lineColor: Record<string, string> = {
+    Arabian:  "#d4a853",
+    Designer: "#8aadcf",
+    Niche:    "#b89fd4",
+  };
+
+  const openSearch = () => { setSearchOpen(true); setQuery(""); };
+  const closeSearch = () => { setSearchOpen(false); setQuery(""); };
+
+  const handleResultClick = () => {
+    closeSearch();
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -33,6 +63,18 @@ export default function Header() {
     document.body.style.overflow = menuOpen || searchOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen, searchOpen]);
+
+  // Focus input when search opens
+  useEffect(() => {
+    if (searchOpen) setTimeout(() => inputRef.current?.focus(), 50);
+  }, [searchOpen]);
+
+  // Close search on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeSearch(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <>
@@ -88,7 +130,7 @@ export default function Header() {
               )}
             </button>
             <button
-              onClick={() => setSearchOpen(true)}
+              onClick={openSearch}
               aria-label="Search"
               className="th-fg hover:text-[#c4a97d] transition-colors"
             >
@@ -207,12 +249,12 @@ export default function Header() {
 
       {/* ── Search overlay ── */}
       <div
-        className={`fixed inset-0 z-[400] bg-[#0c0b09]/96 flex flex-col items-center justify-center p-6 transition-all duration-300 ${
+        className={`fixed inset-0 z-[400] bg-[#0c0b09]/96 flex flex-col items-center pt-32 p-6 transition-all duration-300 ${
           searchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
         <button
-          onClick={() => setSearchOpen(false)}
+          onClick={closeSearch}
           className="absolute top-6 right-6 text-[#e8e0d4] hover:text-[#c4a97d] transition-colors"
         >
           <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
@@ -222,23 +264,65 @@ export default function Header() {
 
         <div className="w-full max-w-xl">
           <p className="text-[9px] tracking-[0.55em] text-[#8a8076] uppercase text-center mb-8">Search</p>
+
+          {/* Input */}
           <div className="relative">
             <input
+              ref={inputRef}
               type="text"
-              placeholder="Type to search the catalog…"
-              autoFocus
-              className="w-full bg-transparent border-b border-[rgba(196,169,125,0.4)] pb-3 text-[#e8e0d4] placeholder-[#8a8076] text-sm tracking-wider outline-none focus:border-[#c4a97d] transition-colors"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Name, house, note, line…"
+              className="w-full bg-transparent border-b border-[rgba(196,169,125,0.4)] pb-3 text-[#e8e0d4] placeholder-[#8a8076] text-sm tracking-wider outline-none focus:border-[#c4a97d] transition-colors pr-8"
             />
-            <button className="absolute right-0 top-0 text-[#8a8076] hover:text-[#c4a97d] transition-colors">
-              <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
-                <circle cx="11" cy="11" r="7" />
-                <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
-              </svg>
-            </button>
+            <svg className="absolute right-0 top-0 text-[#8a8076]" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
+            </svg>
           </div>
-          <p className="mt-4 text-[9px] tracking-[0.3em] text-[#8a8076] uppercase text-center">
-            Type at least 2 characters to search
-          </p>
+
+          {/* Hint */}
+          {query.trim().length < 2 && (
+            <p className="mt-4 text-[9px] tracking-[0.3em] text-[#8a8076] uppercase text-center">
+              Type at least 2 characters
+            </p>
+          )}
+
+          {/* Results */}
+          {results.length > 0 && (
+            <ul className="mt-6 divide-y divide-[rgba(196,169,125,0.08)]">
+              {results.map((p) => (
+                <li key={p.id}>
+                  <Link
+                    href="/product"
+                    onClick={handleResultClick}
+                    className="flex items-center justify-between py-4 group hover:pl-1 transition-all duration-200"
+                  >
+                    <div>
+                      <p className="text-[10px] tracking-[0.3em] text-[#8a8076] uppercase mb-[3px]">{p.house}</p>
+                      <p className="text-sm tracking-[0.15em] text-[#e8e0d4] uppercase group-hover:text-[#c4a97d] transition-colors">
+                        {p.name}
+                      </p>
+                      <p className="text-[8px] text-[#8a8076] mt-1">{p.notes.slice(0, 3).join(" · ")}</p>
+                    </div>
+                    <span
+                      className="text-[7px] tracking-[0.35em] uppercase border px-2 py-[3px] flex-shrink-0"
+                      style={{ color: lineColor[p.line], borderColor: lineColor[p.line] + "55" }}
+                    >
+                      {p.line}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* No results */}
+          {query.trim().length >= 2 && results.length === 0 && (
+            <p className="mt-8 text-[9px] tracking-[0.4em] text-[#8a8076] uppercase text-center">
+              No fragrances found for &ldquo;{query}&rdquo;
+            </p>
+          )}
         </div>
       </div>
     </>
