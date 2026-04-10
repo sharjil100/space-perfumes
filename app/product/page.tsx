@@ -1,7 +1,9 @@
 ﻿"use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { products, LINES, GENDERS, type Line, type Gender, type Product, type DecantSize } from "../lib/products";
+import { fadeUp, fadeIn, stagger, staggerFast, scaleIn, slideLeft } from "../lib/motion";
 
 // ── Per-card component handles its own size selection ──────────────────────
 function ProductCard({ p }: { p: Product }) {
@@ -15,7 +17,7 @@ function ProductCard({ p }: { p: Product }) {
   };
 
   return (
-    <div className="group">
+    <motion.div className="group" variants={scaleIn} whileHover={{ y: -4 }} transition={{ duration: 0.25 }}>
       {/* Image block */}
       <div className="aspect-[3/4] overflow-hidden th-card mb-4 relative">
         <div className="w-full h-full th-card transition-transform duration-500 group-hover:scale-105" />
@@ -75,7 +77,7 @@ function ProductCard({ p }: { p: Product }) {
       <p className="text-[11px] text-[#c4a97d] tracking-wider">
         ৳{selected.price}
       </p>
-    </div>
+    </motion.div>
   );
 }
 
@@ -128,18 +130,22 @@ export default function ProductPage() {
     <div className="th-bg min-h-screen pt-24">
 
       {/* Page header */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 border-b border-[rgba(196,169,125,0.1)]">
-        <p className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase mb-3">Catalogue</p>
-        <h1
+      <motion.div
+        className="max-w-7xl mx-auto px-6 lg:px-12 py-12 border-b border-[rgba(196,169,125,0.1)]"
+        initial="hidden" animate="show" variants={stagger}
+      >
+        <motion.p variants={slideLeft} className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase mb-3">Catalogue</motion.p>
+        <motion.h1
+          variants={fadeUp}
           className="text-4xl sm:text-5xl font-light text-[#e8e0d4] tracking-wide"
           style={{ fontFamily: "var(--font-cormorant)" }}
         >
           Shop Decants
-        </h1>
-        <p className="mt-2 text-[10px] tracking-[0.3em] text-[#8a8076] uppercase">
+        </motion.h1>
+        <motion.p variants={fadeUp} className="mt-2 text-[10px] tracking-[0.3em] text-[#8a8076] uppercase">
           {filtered.length} fragrance{filtered.length !== 1 ? "s" : ""} · 3ml · 5ml · 10ml · 15ml
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
       {/* Line tabs */}
       <div className="border-b border-[rgba(196,169,125,0.1)]">
@@ -250,15 +256,21 @@ export default function ProductPage() {
 
         {/* Product grid */}
         {filtered.length === 0 ? (
-          <div className="py-32 text-center">
+          <motion.div className="py-32 text-center" initial="hidden" animate="show" variants={fadeIn}>
             <p className="text-[10px] tracking-[0.5em] text-[#8a8076] uppercase">No fragrances match your filters</p>
-          </div>
+          </motion.div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-10">
+          <motion.div
+            key={`${activeLine}-${activeGender}-${activeSort}`}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-10"
+            initial="hidden"
+            animate="show"
+            variants={staggerFast}
+          >
             {filtered.map((p) => (
               <ProductCard key={p.id} p={p} />
             ))}
-          </div>
+          </motion.div>
         )}
 
         {/* Bottom note */}

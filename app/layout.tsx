@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LoadingSplash from "./components/LoadingSplash";
 import ThemeProvider from "./components/ThemeProvider";
+import PageTransition from "./components/PageTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,7 @@ export default function RootLayout({
         <ThemeProvider>
           <LoadingSplash />
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1"><PageTransition>{children}</PageTransition></main>
           <Footer />
         </ThemeProvider>
       </body>

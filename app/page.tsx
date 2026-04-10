@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import HeroSlider from "./components/HeroSlider";
 import { products } from "./lib/products";
+import { fadeUp, fadeIn, stagger, scaleIn } from "./lib/motion";
 
 const lines = [
   {
@@ -39,26 +43,41 @@ export default function Home() {
       <HeroSlider />
 
       {/* ── Tagline banner ── */}
-      <section className="py-28 px-6 text-center border-b border-[rgba(196,169,125,0.1)]">
-        <p className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase mb-6">Authentic Decants</p>
-        <h2
+      <motion.section
+        className="py-28 px-6 text-center border-b border-[rgba(196,169,125,0.1)]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.4 }}
+        variants={stagger}
+      >
+        <motion.p variants={fadeUp} className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase mb-6">Authentic Decants</motion.p>
+        <motion.h2
+          variants={fadeUp}
           className="text-3xl sm:text-4xl md:text-5xl font-light text-[#e8e0d4] max-w-2xl mx-auto leading-relaxed"
           style={{ fontFamily: "var(--font-cormorant)" }}
         >
           The world&apos;s finest fragrances,<br />by the millilitre.
-        </h2>
-        <p className="mt-8 text-[9px] tracking-[0.45em] text-[#8a8076] uppercase">
+        </motion.h2>
+        <motion.p variants={fadeUp} className="mt-8 text-[9px] tracking-[0.45em] text-[#8a8076] uppercase">
           Arabian Line · Designer Line · Niche Line
-        </p>
-      </section>
+        </motion.p>
+      </motion.section>
 
       {/* ── Our 3 Lines ── */}
       <section className="py-20 px-6 lg:px-12 border-b border-[rgba(196,169,125,0.1)]">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase text-center mb-14">Our Collections</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <motion.p
+            className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase text-center mb-14"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }}
+            variants={fadeUp}
+          >Our Collections</motion.p>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-3 gap-6"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}
+            variants={stagger}
+          >
             {lines.map((line) => (
-              <div key={line.key} className="group cursor-pointer">
+              <motion.div key={line.key} className="group cursor-pointer" variants={scaleIn}>
                 <div
                   className="aspect-[3/4] overflow-hidden relative flex flex-col items-center justify-end pb-10"
                   style={{ background: line.gradient }}
@@ -91,89 +110,108 @@ export default function Home() {
                     Explore
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── Best Sellers ── */}
       <section className="py-20 px-6 lg:px-12 border-b border-[rgba(196,169,125,0.1)]">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase text-center mb-2">
+          <motion.p
+            className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase text-center mb-2"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }} variants={fadeUp}
+          >
             Most Loved
-          </p>
-          <h2
+          </motion.p>
+          <motion.h2
             className="text-3xl font-light text-[#e8e0d4] tracking-wide text-center mb-14"
             style={{ fontFamily: "var(--font-cormorant)" }}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }} variants={fadeUp}
           >
             Best Sellers
-          </h2>
-          <div className="overflow-x-auto no-scrollbar">
+          </motion.h2>
+          <motion.div
+            className="overflow-x-auto no-scrollbar"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={stagger}
+          >
             <div className="flex gap-6 pb-2 min-w-max lg:grid lg:grid-cols-6 lg:min-w-0">
               {bestsellers.map((p) => (
-                <Link
-                  key={p.id}
-                  href="/product"
-                  className="group flex-shrink-0 w-48 lg:w-auto"
-                >
-                  <div className="aspect-[3/4] overflow-hidden th-card mb-4 relative">
-                    <div className="w-full h-full transition-transform duration-500 group-hover:scale-105 th-card" />
-                    <span className="absolute top-2 left-2 text-[7px] tracking-[0.3em] uppercase bg-[#c4a97d] text-[#0c0b09] px-2 py-[3px]">
-                      {p.line}
-                    </span>
-                  </div>
-                  <p className="text-[8px] tracking-[0.35em] text-[#8a8076] uppercase mb-[2px]">{p.house}</p>
-                  <h4 className="text-[10px] tracking-[0.2em] text-[#e8e0d4] uppercase mb-1 group-hover:text-[#c4a97d] transition-colors line-clamp-2 leading-relaxed">
-                    {p.name}
-                  </h4>
-                  <p className="text-[9px] text-[#c4a97d]">from ৳{p.sizes[0].price}</p>
-                </Link>
+                <motion.div key={p.id} variants={fadeUp}>
+                  <Link
+                    href="/product"
+                    className="group flex-shrink-0 w-48 lg:w-auto block"
+                  >
+                    <div className="aspect-[3/4] overflow-hidden th-card mb-4 relative">
+                      <div className="w-full h-full transition-transform duration-500 group-hover:scale-105 th-card" />
+                      <span className="absolute top-2 left-2 text-[7px] tracking-[0.3em] uppercase bg-[#c4a97d] text-[#0c0b09] px-2 py-[3px]">
+                        {p.line}
+                      </span>
+                    </div>
+                    <p className="text-[8px] tracking-[0.35em] text-[#8a8076] uppercase mb-[2px]">{p.house}</p>
+                    <h4 className="text-[10px] tracking-[0.2em] text-[#e8e0d4] uppercase mb-1 group-hover:text-[#c4a97d] transition-colors line-clamp-2 leading-relaxed">
+                      {p.name}
+                    </h4>
+                    <p className="text-[9px] text-[#c4a97d]">from ৳{p.sizes[0].price}</p>
+                  </Link>
+                </motion.div>
               ))}
             </div>
-          </div>
-          <div className="text-center mt-12">
+          </motion.div>
+          <motion.div
+            className="text-center mt-12"
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeIn}
+          >
             <Link
               href="/product"
               className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase border-b border-[#c4a97d] pb-px hover:text-[#e8e0d4] hover:border-[#e8e0d4] transition-colors"
             >
               View All Fragrances
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── Brand quote ── */}
-      <section className="py-36 px-6 text-center border-b border-[rgba(196,169,125,0.1)]">
+      <motion.section
+        className="py-36 px-6 text-center border-b border-[rgba(196,169,125,0.1)]"
+        initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }} variants={stagger}
+      >
         <div className="max-w-3xl mx-auto">
-          <span
+          <motion.span
+            variants={fadeIn}
             className="block text-6xl font-light text-[#c4a97d] mb-6 leading-none"
             style={{ fontFamily: "var(--font-cormorant)" }}
           >
             "
-          </span>
-          <p
+          </motion.span>
+          <motion.p
+            variants={fadeUp}
             className="text-2xl sm:text-3xl font-light italic text-[#e8e0d4] leading-loose mb-12"
             style={{ fontFamily: "var(--font-cormorant)" }}
           >
             A fragrance that awakens memory and lingers like a whisper, carrying you through time, where emotions are never forgotten.
-          </p>
-          <Link
-            href="/product"
-            className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase border-b border-[#c4a97d] pb-px hover:text-[#e8e0d4] hover:border-[#e8e0d4] transition-colors"
-          >
-            Explore Collection
-          </Link>
+          </motion.p>
+          <motion.div variants={fadeUp}>
+            <Link
+              href="/product"
+              className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase border-b border-[#c4a97d] pb-px hover:text-[#e8e0d4] hover:border-[#e8e0d4] transition-colors"
+            >
+              Explore Collection
+            </Link>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ── Featured line banners ── */}
       <section className="py-20 px-6 lg:px-12 border-b border-[rgba(196,169,125,0.1)]">
         <div className="max-w-7xl mx-auto">
           {/* Top: Arabian full-width */}
-          <div
+          <motion.div
             className="featured-banner relative h-[22rem] flex flex-col items-center justify-center group overflow-hidden mb-6"
             style={{ background: "radial-gradient(ellipse at 50% 60%, #3a2510 0%, #0c0b09 100%)" }}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={scaleIn}
           >
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-500" />
             <div className="relative z-10 text-center px-8">
@@ -194,12 +232,16 @@ export default function Home() {
                 Shop Arabian
               </Link>
             </div>
-          </div>
+          </motion.div>
           {/* Bottom: Designer + Niche side by side */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={stagger}
+          >
+            <motion.div
               className="featured-banner relative h-[22rem] flex flex-col items-center justify-center group overflow-hidden"
               style={{ background: "radial-gradient(ellipse at 50% 40%, #1a1624 0%, #0c0b09 100%)" }}
+              variants={scaleIn}
             >
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-500" />
               <div className="relative z-10 text-center px-8">
@@ -220,10 +262,11 @@ export default function Home() {
                   Shop Designer
                 </Link>
               </div>
-            </div>
-            <div
+            </motion.div>
+            <motion.div
               className="featured-banner relative h-[22rem] flex flex-col items-center justify-center group overflow-hidden"
               style={{ background: "radial-gradient(ellipse at 50% 50%, #161c12 0%, #0c0b09 100%)" }}
+              variants={scaleIn}
             >
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-500" />
               <div className="relative z-10 text-center px-8">
@@ -244,8 +287,8 @@ export default function Home() {
                   Shop Niche
                 </Link>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
