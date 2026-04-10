@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 // Module-level flag — resets on full page refresh, survives client-side navigation
 let hasEnteredThisLoad = false;
 
-const LOGO_DURATION   = 2200;  // ms before language picker appears
+const LOGO_DURATION   = 3000;  // ms before enter prompt appears
 const EXIT_DURATION   = 900;   // ms for exit curtain
 
 export default function LoadingSplash() {
@@ -65,6 +65,11 @@ export default function LoadingSplash() {
           from { opacity: 0; transform: translateY(12px); }
           to   { opacity: 1; transform: translateY(0); }
         }
+        @keyframes logoReveal {
+          from { opacity: 0; transform: translateY(-80px); filter: blur(6px); }
+          to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+        }
+        .splash-logo { animation: logoReveal 2.2s cubic-bezier(.16,.84,.44,1) both; }
         @keyframes subtlePulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(196,169,125,0); }
           50%       { box-shadow: 0 0 22px 4px rgba(196,169,125,0.18); }
@@ -155,34 +160,38 @@ export default function LoadingSplash() {
         {/* ── Centered content ── */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-6">
 
-          {/* Top horizontal line — animates in */}
+          {/* Logo image — appears first, scale-up reveal */}
           <div
-            className="w-12 h-px bg-[#c4a97d] origin-left mb-10 splash-shimmer"
-            style={{ animationDelay: "0.2s" }}
+            className="splash-logo mb-2"
+            style={{ animationDelay: "0s" }}
+          >
+            <img
+              src="/space-logo.png"
+              alt="Space Perfumes"
+              className="h-56 sm:h-72 md:h-80 w-auto object-contain"
+            />
+          </div>
+
+          {/* Top horizontal line */}
+          <div
+            className="w-12 h-px bg-[#c4a97d] origin-left mb-8 splash-shimmer"
+            style={{ animationDelay: "0.7s" }}
           />
 
           {/* Est. tag */}
           <span
-            className="text-[9px] tracking-[0.75em] text-[#c4a97d] uppercase mb-6 splash-revealFade"
-            style={{ animationDelay: "0.4s" }}
+            className="text-[9px] tracking-[0.75em] text-[#c4a97d] uppercase mb-4 splash-revealFade"
+            style={{ animationDelay: "0.85s" }}
           >
             est. 2026
           </span>
 
-          {/* Logo */}
-          <h1
-            className="text-4xl sm:text-5xl md:text-6xl font-light tracking-[0.45em] text-[#e8e0d4] uppercase splash-revealUp"
-            style={{ fontFamily: "var(--font-cormorant)", animationDelay: "0.55s" }}
-          >
-            Space Perfumes
-          </h1>
-
           {/* Tagline */}
           <p
-            className="mt-4 text-[10px] tracking-[0.5em] text-[#8a8076] uppercase italic splash-revealFade"
+            className="text-[10px] tracking-[0.5em] text-[#8a8076] uppercase italic splash-revealFade"
             style={{
               fontFamily: "var(--font-cormorant)",
-              animationDelay: "0.85s",
+              animationDelay: "1s",
             }}
           >
             A memory held in time
@@ -190,37 +199,36 @@ export default function LoadingSplash() {
 
           {/* Bottom line */}
           <div
-            className="w-12 h-px bg-[#c4a97d] origin-left mt-10 splash-shimmer"
-            style={{ animationDelay: "1s" }}
+            className="w-12 h-px bg-[#c4a97d] origin-left mt-8 splash-shimmer"
+            style={{ animationDelay: "1.1s" }}
           />
 
-          {/* ── Language + Enter (phase === "select") ── */}
+          {/* ── Enter prompt (phase === "select") ── */}
           {phase === "select" && (
-            <div className="flex flex-col items-center gap-8 mt-14">
+            <div className="flex flex-col items-center gap-7 mt-14">
 
               <p
                 className="text-[9px] tracking-[0.6em] text-[#8a8076] uppercase splash-revealFade"
                 style={{ animationDelay: "0s" }}
               >
-                Choose Your Language
+                Ready to enter the world of fragrances?
               </p>
 
-              <div className="flex gap-10 splash-revealFade" style={{ animationDelay: "0.12s" }}>
-                <button className="text-[11px] tracking-[0.3em] text-[#e8e0d4] uppercase border-b border-[#c4a97d] pb-0.5 hover:text-[#c4a97d] transition-colors">
-                  English
+              <div className="flex gap-6 splash-revealFade" style={{ animationDelay: "0.12s" }}>
+                <button
+                  onClick={handleEnter}
+                  className="enter-pulse border border-[#c4a97d] px-10 py-3.5 text-[10px] tracking-[0.6em] text-[#c4a97d] uppercase hover:bg-[#c4a97d] hover:text-[#0c0b09] transition-all duration-300"
+                >
+                  Yes
                 </button>
-                <button className="text-[11px] tracking-[0.3em] text-[#8a8076] uppercase pb-0.5 hover:text-[#c4a97d] transition-colors">
-                  العربية
+                <button
+                  onClick={handleEnter}
+                  className="border border-[rgba(196,169,125,0.25)] px-10 py-3.5 text-[10px] tracking-[0.6em] text-[#8a8076] uppercase hover:border-[#c4a97d] hover:text-[#c4a97d] transition-all duration-300"
+                >
+                  Yes, please
                 </button>
               </div>
 
-              <button
-                onClick={handleEnter}
-                className="enter-pulse mt-3 border border-[#c4a97d] px-16 py-4 text-[10px] tracking-[0.65em] text-[#c4a97d] uppercase hover:bg-[#c4a97d] hover:text-[#0c0b09] transition-all duration-300 splash-revealFade"
-                style={{ animationDelay: "0.22s" }}
-              >
-                Enter
-              </button>
             </div>
           )}
         </div>

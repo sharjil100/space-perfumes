@@ -73,7 +73,7 @@ function ProductCard({ p }: { p: Product }) {
 
       {/* Price */}
       <p className="text-[11px] text-[#c4a97d] tracking-wider">
-        {selected.price} <span className="text-[8px] text-[#8a8076]">SAR</span>
+        ৳{selected.price}
       </p>
     </div>
   );

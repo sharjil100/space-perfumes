@@ -9,6 +9,7 @@ const lines = [
     badge: "Best Sellers",
     sub: "Oud · Musk · Oriental Spice",
     gradient: "radial-gradient(ellipse at 50% 70%, #2e1f0e 0%, #130e07 100%)",
+    image: "/arabian-line.png",
   },
   {
     name: "Designer Line",
@@ -16,6 +17,7 @@ const lines = [
     badge: "Luxury Maisons",
     sub: "Dior · Chanel · YSL · Versace",
     gradient: "radial-gradient(ellipse at 50% 30%, #1a1624 0%, #0d0b18 100%)",
+    image: "/designer-line.png",
   },
   {
     name: "Niche Line",
@@ -23,6 +25,7 @@ const lines = [
     badge: "Rare & Artisan",
     sub: "MFK · Serge Lutens · Parfums de Marly",
     gradient: "radial-gradient(ellipse at 40% 60%, #1a1e18 0%, #0e0f0a 100%)",
+    image: "/niche-line.png",
   },
 ];
 
@@ -60,6 +63,14 @@ export default function Home() {
                   className="aspect-[3/4] overflow-hidden relative flex flex-col items-center justify-end pb-10"
                   style={{ background: line.gradient }}
                 >
+                  {/* Background image */}
+                  <img
+                    src={line.image}
+                    alt={line.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Dark gradient overlay so text stays readable */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
                   <div className="relative z-10 text-center px-4">
                     <p className="text-[7px] tracking-[0.55em] uppercase mb-2" style={{ color: "#c4a97d" }}>{line.badge}</p>
@@ -116,7 +127,7 @@ export default function Home() {
                   <h4 className="text-[10px] tracking-[0.2em] text-[#e8e0d4] uppercase mb-1 group-hover:text-[#c4a97d] transition-colors line-clamp-2 leading-relaxed">
                     {p.name}
                   </h4>
-                  <p className="text-[9px] text-[#c4a97d]">from {p.sizes[0].price} SAR</p>
+                  <p className="text-[9px] text-[#c4a97d]">from ৳{p.sizes[0].price}</p>
                 </Link>
               ))}
             </div>

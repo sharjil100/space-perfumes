@@ -3,16 +3,14 @@ import Link from "next/link";
 const companyLinks = [
   { label: "About Us", href: "/about" },
   { label: "Our Story", href: "/about" },
-  { label: "Locations", href: "#" },
 ];
 
 const shopLinks = [
   { label: "Shop All", href: "/product" },
-  { label: "Signature Line", href: "/product" },
-  { label: "Luxury Line", href: "/product" },
-  { label: "Hair & Body", href: "/product" },
-  { label: "Musk Collection", href: "/product" },
-  { label: "Sets Line", href: "/product" },
+  { label: "Arabian Line", href: "/product" },
+  { label: "Designer Line", href: "/product" },
+  { label: "Niche Line", href: "/product" },
+  { label: "Best Sellers", href: "/product" },
 ];
 
 const legalLinks = [
@@ -25,8 +23,8 @@ const legalLinks = [
 const socialLinks = [
   { label: "Instagram", href: "#" },
   { label: "Facebook", href: "#" },
-  { label: "LinkedIn", href: "#" },
   { label: "TikTok", href: "#" },
+  { label: "LinkedIn", href: "#" },
 ];
 
 export default function Footer() {
@@ -120,7 +118,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Space Perfumes. All rights reserved.
           </p>
           <p className="text-[9px] tracking-[0.3em] text-[#8a8076] uppercase">
-            Saudi Arabia
+            Bangladesh
           </p>
         </div>
       </div>

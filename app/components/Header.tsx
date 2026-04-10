@@ -7,13 +7,11 @@ import { useTheme } from "./ThemeProvider";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Shop All", href: "/product" },
-  { label: "Luxury Line", href: "/product" },
-  { label: "Signature Line", href: "/product" },
-  { label: "Musk Collection", href: "/product" },
-  { label: "Sets Line", href: "/product" },
-  { label: "Hair & Body", href: "/product" },
-  { label: "Home Fragrance", href: "/product" },
-  { label: "Stores", href: "/about" },
+  { label: "Arabian Line", href: "/product" },
+  { label: "Designer Line", href: "/product" },
+  { label: "Niche Line", href: "/product" },
+  { label: "Best Sellers", href: "/product" },
+  { label: "About Us", href: "/about" },
   { label: "Our Story", href: "/about" },
 ];
 
@@ -54,15 +52,15 @@ export default function Header() {
             className="flex flex-col gap-[5px] group z-10"
             aria-label="Open navigation"
           >
-            <span className="block h-px w-7 bg-[#e8e0d4] transition-all duration-300 group-hover:bg-[#c4a97d]" />
-            <span className="block h-px w-5 bg-[#e8e0d4] transition-all duration-300 group-hover:bg-[#c4a97d] group-hover:w-7" />
-            <span className="block h-px w-7 bg-[#e8e0d4] transition-all duration-300 group-hover:bg-[#c4a97d]" />
+            <span className="block h-px w-7 transition-all duration-300 group-hover:bg-[#c4a97d]" style={{ backgroundColor: "var(--fg)" }} />
+            <span className="block h-px w-5 transition-all duration-300 group-hover:bg-[#c4a97d] group-hover:w-7" style={{ backgroundColor: "var(--fg)" }} />
+            <span className="block h-px w-7 transition-all duration-300 group-hover:bg-[#c4a97d]" style={{ backgroundColor: "var(--fg)" }} />
           </button>
 
           {/* Logo — centered absolutely */}
           <Link
             href="/"
-            className="absolute left-1/2 -translate-x-1/2 text-sm sm:text-base tracking-[0.45em] text-[#e8e0d4] uppercase font-light whitespace-nowrap hover:text-[#c4a97d] transition-colors duration-300"
+            className="absolute left-1/2 -translate-x-1/2 text-sm sm:text-base tracking-[0.45em] th-fg uppercase font-light whitespace-nowrap hover:text-[#c4a97d] transition-colors duration-300"
             style={{ fontFamily: "var(--font-cormorant)" }}
           >
             Space Perfumes
@@ -74,7 +72,7 @@ export default function Header() {
             <button
               onClick={toggle}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="text-[#e8e0d4] hover:text-[#c4a97d] transition-colors"
+              className="th-fg hover:text-[#c4a97d] transition-colors"
             >
               {theme === "dark" ? (
                 /* Sun icon */
@@ -92,7 +90,7 @@ export default function Header() {
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
-              className="text-[#e8e0d4] hover:text-[#c4a97d] transition-colors"
+              className="th-fg hover:text-[#c4a97d] transition-colors"
             >
               <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="7" />
@@ -101,7 +99,7 @@ export default function Header() {
             </button>
 
             {/* Basket */}
-            <button aria-label="Basket" className="relative text-[#e8e0d4] hover:text-[#c4a97d] transition-colors">
+            <button aria-label="Basket" className="relative th-fg hover:text-[#c4a97d] transition-colors">
               <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
@@ -169,7 +167,7 @@ export default function Header() {
 
         {/* Social row */}
         <div className="flex items-center justify-center gap-8 px-6 py-7 border-t border-[rgba(196,169,125,0.12)]">
-          {["Instagram", "Facebook", "LinkedIn", "TikTok"].map((s) => (
+          {["Instagram", "Facebook", "TikTok", "LinkedIn"].map((s) => (
             <a
               key={s}
               href="#"

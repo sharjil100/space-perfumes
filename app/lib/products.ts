@@ -35,7 +35,7 @@ export const products: Product[] = [
     occasions: ["Night", "Date"],
     seasons: ["Fall", "Winter"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 28 }, { ml: 5, price: 42 }, { ml: 10, price: 72 }, { ml: 15, price: 95 }],
+    sizes: [{ ml: 5, price: 315 }, { ml: 9, price: 511 }, { ml: 15, price: 768 }],
   },
   {
     id: "khamrah-qahwa",
@@ -47,7 +47,7 @@ export const products: Product[] = [
     occasions: ["Night"],
     seasons: ["Fall", "Winter"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 28 }, { ml: 5, price: 42 }, { ml: 10, price: 72 }, { ml: 15, price: 95 }],
+    sizes: [{ ml: 5, price: 339 }, { ml: 9, price: 549 }, { ml: 15, price: 828 }],
   },
   {
     id: "angham",
@@ -59,7 +59,7 @@ export const products: Product[] = [
     occasions: ["Day", "Evening", "Signature"],
     seasons: ["Spring", "Summer", "Fall", "Winter"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 28 }, { ml: 5, price: 42 }, { ml: 10, price: 72 }, { ml: 15, price: 95 }],
+    sizes: [{ ml: 5, price: 319 }, { ml: 9, price: 517 }, { ml: 15, price: 778 }],
   },
   {
     id: "supremacy-collectors",
@@ -71,7 +71,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Formal", "Signature"],
     seasons: ["Fall", "Winter"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 32 }, { ml: 5, price: 50 }, { ml: 10, price: 85 }, { ml: 15, price: 115 }],
+    sizes: [{ ml: 5, price: 496 }, { ml: 9, price: 837 }, { ml: 15, price: 1273 }],
   },
   {
     id: "hawas",
@@ -83,7 +83,7 @@ export const products: Product[] = [
     occasions: ["Day"],
     seasons: ["Spring", "Summer"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 25 }, { ml: 5, price: 38 }, { ml: 10, price: 65 }, { ml: 15, price: 85 }],
+    sizes: [{ ml: 5, price: 340 }, { ml: 9, price: 560 }, { ml: 15, price: 837 }],
   },
   {
     id: "hawas-fire",
@@ -95,7 +95,7 @@ export const products: Product[] = [
     occasions: ["Day", "Evening", "Signature"],
     seasons: ["Spring", "Summer", "Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 30 }, { ml: 5, price: 45 }, { ml: 10, price: 78 }, { ml: 15, price: 105 }],
+    sizes: [{ ml: 5, price: 430 }, { ml: 9, price: 710 }, { ml: 15, price: 1072 }],
   },
   {
     id: "9pm",
@@ -107,7 +107,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Night"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 25 }, { ml: 5, price: 38 }, { ml: 10, price: 65 }, { ml: 15, price: 85 }],
+    sizes: [{ ml: 5, price: 361 }, { ml: 9, price: 594 }, { ml: 15, price: 897 }],
   },
   {
     id: "9pm-elixir",
@@ -119,7 +119,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Formal"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 30 }, { ml: 5, price: 45 }, { ml: 10, price: 78 }, { ml: 15, price: 105 }],
+    sizes: [{ ml: 5, price: 461 }, { ml: 9, price: 773 }, { ml: 15, price: 1174 }],
   },
   {
     id: "ajayeb-dubai",
@@ -131,7 +131,7 @@ export const products: Product[] = [
     occasions: ["Casual", "Signature"],
     seasons: ["Spring", "Fall"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 25 }, { ml: 5, price: 38 }, { ml: 10, price: 65 }, { ml: 15, price: 85 }],
+    sizes: [{ ml: 5, price: 354 }, { ml: 9, price: 581 }, { ml: 15, price: 877 }],
   },
   {
     id: "adonis-oud",
@@ -143,7 +143,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Signature"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 25 }, { ml: 5, price: 38 }, { ml: 10, price: 65 }, { ml: 15, price: 85 }],
+    sizes: [{ ml: 5, price: 319 }, { ml: 9, price: 517 }, { ml: 15, price: 778 }],
   },
   {
     id: "ajayeb-dubai-portrait",
@@ -155,7 +155,7 @@ export const products: Product[] = [
     occasions: ["Day", "Signature"],
     seasons: ["Spring", "Summer"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 22 }, { ml: 5, price: 34 }, { ml: 10, price: 58 }, { ml: 15, price: 78 }],
+    sizes: [{ ml: 5, price: 283 }, { ml: 9, price: 453 }, { ml: 15, price: 679 }],
   },
   {
     id: "al-nashama-caprice",
@@ -167,7 +167,7 @@ export const products: Product[] = [
     occasions: ["Day", "Evening"],
     seasons: ["Spring", "Summer"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 25 }, { ml: 5, price: 38 }, { ml: 10, price: 65 }, { ml: 15, price: 85 }],
+    sizes: [{ ml: 5, price: 354 }, { ml: 9, price: 581 }, { ml: 15, price: 877 }],
   },
 
   // ── DESIGNER LINE ───────────────────────────────────────────────────────
@@ -181,7 +181,7 @@ export const products: Product[] = [
     occasions: ["Day", "Night"],
     seasons: ["Spring", "Summer", "Fall", "Winter"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 55 }, { ml: 5, price: 85 }, { ml: 10, price: 150 }, { ml: 15, price: 200 }],
+    sizes: [{ ml: 3, price: 853 }, { ml: 5, price: 1384 }, { ml: 9, price: 2434 }, { ml: 15, price: 3748 }],
   },
   {
     id: "bleu-de-chanel-edp",
@@ -193,7 +193,7 @@ export const products: Product[] = [
     occasions: ["Formal", "Day", "Evening", "Signature"],
     seasons: ["Spring", "Summer", "Fall", "Winter"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 60 }, { ml: 5, price: 92 }, { ml: 10, price: 165 }, { ml: 15, price: 225 }],
+    sizes: [{ ml: 3, price: 999 }, { ml: 5, price: 1632 }, { ml: 9, price: 2882 }],
   },
   {
     id: "y-edp",
@@ -205,7 +205,7 @@ export const products: Product[] = [
     occasions: ["Formal", "Office", "Romantic", "Signature"],
     seasons: ["Spring", "Summer", "Fall"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 50 }, { ml: 5, price: 78 }, { ml: 10, price: 140 }, { ml: 15, price: 188 }],
+    sizes: [{ ml: 3, price: 542 }, { ml: 5, price: 865 }, { ml: 9, price: 1501 }, { ml: 15, price: 2303 }],
   },
   {
     id: "cdni-edp",
@@ -217,7 +217,7 @@ export const products: Product[] = [
     occasions: ["Casual", "Evening", "Night", "Signature"],
     seasons: ["Spring", "Summer", "Fall"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 35 }, { ml: 5, price: 55 }, { ml: 10, price: 96 }, { ml: 15, price: 130 }],
+    sizes: [{ ml: 5, price: 425 }, { ml: 9, price: 700 }, { ml: 15, price: 1075 }],
   },
   {
     id: "acqua-di-gio-parfum",
@@ -229,7 +229,7 @@ export const products: Product[] = [
     occasions: ["Casual", "Day"],
     seasons: ["Spring", "Summer"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 52 }, { ml: 5, price: 80 }, { ml: 10, price: 143 }, { ml: 15, price: 192 }],
+    sizes: [{ ml: 3, price: 632 }, { ml: 5, price: 1014 }, { ml: 9, price: 1770 }, { ml: 15, price: 2718 }],
   },
   {
     id: "acqua-di-gio-profondo",
@@ -241,11 +241,11 @@ export const products: Product[] = [
     occasions: ["Casual", "Day"],
     seasons: ["Spring", "Summer"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 52 }, { ml: 5, price: 80 }, { ml: 10, price: 143 }, { ml: 15, price: 192 }],
+    sizes: [{ ml: 3, price: 593 }, { ml: 5, price: 950 }, { ml: 9, price: 1655 }, { ml: 15, price: 2540 }],
   },
   {
     id: "1-million-edp",
-    name: "1 Million EDP",
+    name: "1 Million Parfum",
     house: "Paco Rabanne",
     line: "Designer",
     gender: "Him",
@@ -253,7 +253,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Night", "Signature"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 48 }, { ml: 5, price: 74 }, { ml: 10, price: 132 }, { ml: 15, price: 178 }],
+    sizes: [{ ml: 3, price: 470 }, { ml: 5, price: 745 }, { ml: 9, price: 1284 }, { ml: 15, price: 1966 }],
   },
   {
     id: "eros-edp",
@@ -265,7 +265,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Romantic"],
     seasons: ["Fall", "Winter", "Spring"],
     bestSeller: true,
-    sizes: [{ ml: 3, price: 48 }, { ml: 5, price: 74 }, { ml: 10, price: 132 }, { ml: 15, price: 178 }],
+    sizes: [{ ml: 3, price: 331 }, { ml: 5, price: 514 }, { ml: 9, price: 869 }, { ml: 15, price: 1323 }],
   },
   {
     id: "212-vip-black",
@@ -277,7 +277,7 @@ export const products: Product[] = [
     occasions: ["Night", "Date", "Signature"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 40 }, { ml: 5, price: 62 }, { ml: 10, price: 110 }, { ml: 15, price: 148 }],
+    sizes: [{ ml: 3, price: 385 }, { ml: 5, price: 603 }, { ml: 9, price: 1029 }, { ml: 15, price: 1570 }],
   },
   {
     id: "alien-goddess",
@@ -289,7 +289,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Night"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 48 }, { ml: 5, price: 74 }, { ml: 10, price: 130 }, { ml: 15, price: 175 }],
+    sizes: [{ ml: 3, price: 609 }, { ml: 5, price: 979 }, { ml: 9, price: 1706 }, { ml: 15, price: 2615 }],
   },
   {
     id: "addict-edp",
@@ -301,7 +301,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Signature"],
     seasons: ["Fall", "Winter", "Spring"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 55 }, { ml: 5, price: 85 }, { ml: 10, price: 150 }, { ml: 15, price: 200 }],
+    sizes: [{ ml: 3, price: 853 }, { ml: 5, price: 1384 }, { ml: 9, price: 2434 }],
   },
 
   // ── NICHE LINE ──────────────────────────────────────────────────────────
@@ -315,7 +315,7 @@ export const products: Product[] = [
     occasions: ["Day", "Signature"],
     seasons: ["Spring", "Summer"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 120 }, { ml: 5, price: 188 }, { ml: 10, price: 340 }, { ml: 15, price: 460 }],
+    sizes: [{ ml: 3, price: 1404 }, { ml: 5, price: 2301 }, { ml: 9, price: 4087 }, { ml: 15, price: 6308 }],
   },
   {
     id: "african-leather",
@@ -327,7 +327,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Formal", "Signature"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 110 }, { ml: 5, price: 172 }, { ml: 10, price: 310 }, { ml: 15, price: 420 }],
+    sizes: [{ ml: 3, price: 768 }, { ml: 5, price: 1242 }, { ml: 9, price: 2179 }, { ml: 15, price: 3352 }],
   },
   {
     id: "a-la-nuit",
@@ -339,7 +339,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Night"],
     seasons: ["Summer", "Spring"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 95 }, { ml: 5, price: 148 }, { ml: 10, price: 268 }, { ml: 15, price: 360 }],
+    sizes: [{ ml: 3, price: 1173 }, { ml: 5, price: 1916 }, { ml: 9, price: 3393 }],
   },
   {
     id: "acqua-viva",
@@ -351,11 +351,11 @@ export const products: Product[] = [
     occasions: ["Day"],
     seasons: ["Spring", "Summer"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 90 }, { ml: 5, price: 140 }, { ml: 10, price: 252 }, { ml: 15, price: 340 }],
+    sizes: [{ ml: 3, price: 1024 }, { ml: 5, price: 1668 }, { ml: 9, price: 2946 }, { ml: 15, price: 4540 }],
   },
   {
     id: "akaster",
-    name: "Akaster",
+    name: "Akaster (Batch 2017)",
     house: "Parfums de Marly",
     line: "Niche",
     gender: "Him",
@@ -363,7 +363,7 @@ export const products: Product[] = [
     occasions: ["Evening", "Formal"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 98 }, { ml: 5, price: 155 }, { ml: 10, price: 280 }, { ml: 15, price: 378 }],
+    sizes: [{ ml: 3, price: 603 }, { ml: 5, price: 967 }, { ml: 9, price: 1685 }, { ml: 15, price: 2588 }],
   },
   {
     id: "a-men",
@@ -375,6 +375,6 @@ export const products: Product[] = [
     occasions: ["Evening", "Night"],
     seasons: ["Fall", "Winter"],
     bestSeller: false,
-    sizes: [{ ml: 3, price: 80 }, { ml: 5, price: 125 }, { ml: 10, price: 225 }, { ml: 15, price: 305 }],
+    sizes: [{ ml: 3, price: 448 }, { ml: 5, price: 709 }, { ml: 9, price: 1200 }, { ml: 15, price: 1860 }],
   },
 ];
