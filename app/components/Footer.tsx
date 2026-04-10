@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { fadeUp, fadeIn, stagger } from "../lib/motion";
 
 const companyLinks = [
-  { label: "About Us", href: "/about" },
   { label: "Our Story", href: "/about" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 const shopLinks = [

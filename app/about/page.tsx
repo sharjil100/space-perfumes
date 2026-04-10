@@ -1,12 +1,27 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { fadeUp, fadeIn, stagger, scaleIn } from "../lib/motion";
 
 export default function About() {
+  const router = useRouter();
   return (
     <div className="th-bg min-h-screen pt-24">
+
+      {/* Back */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-8 pb-2">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 text-[9px] tracking-[0.4em] text-[#8a8076] uppercase hover:text-[#c4a97d] transition-colors"
+        >
+          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
+            <path d="M19 12H5M12 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Back
+        </button>
+      </div>
 
       {/* Hero */}
       <section

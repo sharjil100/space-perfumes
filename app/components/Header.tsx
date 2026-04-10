@@ -14,8 +14,8 @@ const navLinks = [
   { label: "Designer Line", href: "/product" },
   { label: "Niche Line", href: "/product" },
   { label: "Best Sellers", href: "/product" },
-  { label: "About Us", href: "/about" },
   { label: "Our Story", href: "/about" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 export default function Header() {
