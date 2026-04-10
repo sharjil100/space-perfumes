@@ -112,6 +112,11 @@ export default function AdminPage() {
   const [form, setForm] = useState<FormData>(emptyForm);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [confirmDialog, setConfirmDialog] = useState<{ message: string; onConfirm: () => void } | null>(null);
+
+  function askConfirm(message: string, onConfirm: () => void) {
+    setConfirmDialog({ message, onConfirm });
+  }
 
   // Check auth on mount
   useEffect(() => {
@@ -187,9 +192,10 @@ export default function AdminPage() {
   }
 
   async function deleteProduct(id: string, name: string) {
-    if (!confirm(`Delete "${name}"?\n\nThis cannot be undone.`)) return;
-    await supabase.from("products").delete().eq("id", id);
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+    askConfirm(`Delete "${name}"? This cannot be undone.`, async () => {
+      await supabase.from("products").delete().eq("id", id);
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+    });
   }
 
   async function saveProduct() {
@@ -319,9 +325,34 @@ export default function AdminPage() {
     );
   }
 
+  // ── Confirm Modal ─────────────────────────────────────────────────────────
+  const ConfirmModal = confirmDialog ? (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+      <div className="bg-[#161616] border border-[#2a2a2a] rounded-sm p-8 max-w-sm w-full">
+        <p className="text-white text-sm font-light mb-8 leading-relaxed">{confirmDialog.message}</p>
+        <div className="flex gap-3 justify-end">
+          <button
+            onClick={() => setConfirmDialog(null)}
+            className="text-[10px] tracking-[0.35em] text-[#555] uppercase px-5 py-2 border border-[#2a2a2a] hover:border-[#444] hover:text-white transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => { confirmDialog.onConfirm(); setConfirmDialog(null); }}
+            className="text-[10px] tracking-[0.35em] uppercase px-5 py-2 bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30 transition-colors"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   // ── Product Form (Add / Edit) ──────────────────────────────────────────────
   if (view === "form") {
     return (
+      <>
+        {ConfirmModal}
       <div className="min-h-screen bg-[#0f0f0f] text-white">
         {/* Header */}
         <div className="sticky top-0 z-10 border-b border-[#2a2a2a] bg-[#0f0f0f] px-6 py-4 flex items-center justify-between">
@@ -392,8 +423,21 @@ export default function AdminPage() {
             <h2 className="text-[10px] tracking-[0.5em] text-[#c4a97d] uppercase mb-6">Product Image</h2>
             <div className="flex gap-6 items-start">
               {(imagePreview || form.imageUrl) && (
-                <div className="w-24 h-32 relative shrink-0 bg-[#1a1a1a] rounded-sm overflow-hidden border border-[#2a2a2a]">
-                  <Image src={imagePreview || form.imageUrl} alt="" fill className="object-cover" unoptimized />
+                <div className="shrink-0 flex flex-col items-center gap-2">
+                  <div className="w-24 h-32 relative bg-[#1a1a1a] rounded-sm overflow-hidden border border-[#2a2a2a]">
+                    <Image src={imagePreview || form.imageUrl} alt="" fill className="object-cover" unoptimized />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => askConfirm("Remove this image?", () => {
+                      setImageFile(null);
+                      setImagePreview("");
+                      setForm((f) => ({ ...f, imageUrl: "" }));
+                    })}
+                    className="text-[9px] tracking-[0.3em] text-red-400/60 uppercase hover:text-red-400 transition-colors"
+                  >
+                    Remove
+                  </button>
                 </div>
               )}
               <div className="flex-1 space-y-3">
@@ -532,6 +576,7 @@ export default function AdminPage() {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
@@ -539,6 +584,8 @@ export default function AdminPage() {
   const outOfStock = products.filter((p) => !p.in_stock).length;
 
   return (
+    <>
+      {ConfirmModal}
     <div className="min-h-screen bg-[#0f0f0f] text-white">
       {/* Header */}
       <div className="border-b border-[#2a2a2a] px-6 py-4 flex items-center justify-between">
@@ -546,7 +593,7 @@ export default function AdminPage() {
           className="text-base tracking-[0.3em] uppercase font-light"
           style={{ fontFamily: "var(--font-cormorant)" }}
         >
-          Space Perfumes <span className="text-[#444]">· Admin</span>
+          Space Perfumes <span className="text-[#c4a97d] font-semibold">· Admin</span>
         </h1>
         <button onClick={logout} className="text-[10px] tracking-[0.35em] text-[#555] uppercase hover:text-white transition-colors">
           Logout
@@ -554,8 +601,8 @@ export default function AdminPage() {
       </div>
 
       {/* Stats + Add button */}
-      <div className="px-6 py-5 border-b border-[#1a1a1a] flex items-center justify-between gap-6">
-        <div className="flex gap-10">
+      <div className="px-4 sm:px-6 py-5 border-b border-[#1a1a1a] flex flex-wrap items-center justify-between gap-4">
+        <div className="flex gap-6 sm:gap-10">
           <Stat label="Total Products" value={products.length} />
           <Stat label="In Stock" value={products.length - outOfStock} />
           <Stat label="Out of Stock" value={outOfStock} accent={outOfStock > 0} />
@@ -569,13 +616,13 @@ export default function AdminPage() {
       </div>
 
       {/* Filters */}
-      <div className="px-6 py-4 border-b border-[#1a1a1a]">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="px-4 sm:px-6 py-4 border-b border-[#1a1a1a]">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name or brand…"
-            className="bg-[#161616] border border-[#2a2a2a] text-sm text-white px-4 py-2 rounded-sm focus:outline-none focus:border-[#c4a97d] transition-colors placeholder:text-[#444] w-64 shrink-0"
+            className="bg-[#161616] border border-[#2a2a2a] text-sm text-white px-4 py-2 rounded-sm focus:outline-none focus:border-[#c4a97d] transition-colors placeholder:text-[#444] w-full sm:w-64 shrink-0"
           />
           <div className="flex flex-wrap gap-2">
             {["All", "Arabian", "Designer", "Niche"].map((l) => (
@@ -592,12 +639,63 @@ export default function AdminPage() {
               </button>
             ))}
           </div>
-          <span className="text-[10px] text-[#444] ml-auto">{filtered.length} products</span>
+          <span className="text-[10px] text-[#444] sm:ml-auto">{filtered.length} products</span>
         </div>
       </div>
 
-      {/* Table */}
-      <div className="px-6 pb-16 overflow-x-auto">
+      {/* Mobile cards (< md) */}
+      <div className="md:hidden px-4 pb-16 space-y-3 pt-4">
+        {filtered.map((p) => (
+          <div key={p.id} className="bg-[#161616] border border-[#222] rounded-sm p-4">
+            <div className="flex gap-4">
+              {/* Thumb */}
+              <div className="w-14 h-20 bg-[#1a1a1a] rounded-sm overflow-hidden relative shrink-0">
+                {p.image_url ? (
+                  <Image src={p.image_url} alt="" fill className="object-cover" unoptimized />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[#333] text-[10px]">—</div>
+                )}
+              </div>
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <p className="text-white text-sm font-medium leading-tight truncate">{p.name}</p>
+                <p className="text-[#555] text-[11px] mt-0.5">{p.house}</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className={`text-[9px] tracking-[0.2em] uppercase px-2 py-[2px] rounded-sm ${
+                    p.line === "Arabian"  ? "bg-[#d4a85320] text-[#d4a853]" :
+                    p.line === "Designer" ? "bg-[#8aadcf20] text-[#8aadcf]" :
+                                            "bg-[#b89fd420] text-[#b89fd4]"
+                  }`}>{p.line}</span>
+                  <span className="text-[9px] tracking-[0.2em] uppercase text-[#555] border border-[#2a2a2a] px-2 py-[2px] rounded-sm">{p.gender}</span>
+                </div>
+                <p className="text-[10px] text-[#444] mt-1">{(p.sizes ?? []).map((s) => `${s.ml}ml`).join(" · ")}</p>
+              </div>
+            </div>
+            {/* Footer row */}
+            <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#222]">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => toggleStock(p)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${p.in_stock ? "bg-[#c4a97d]" : "bg-[#2a2a2a]"}`}
+                >
+                  <span className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${p.in_stock ? "translate-x-6" : "translate-x-1"}`} />
+                </button>
+                <span className="text-[10px] text-[#555]">{p.in_stock ? "In Stock" : "Out of Stock"}</span>
+              </div>
+              <div className="flex gap-5">
+                <button onClick={() => openEdit(p)} className="text-[11px] tracking-[0.3em] text-[#c4a97d] uppercase">Edit</button>
+                <button onClick={() => deleteProduct(p.id, p.name)} className="text-[11px] tracking-[0.3em] text-[#444] uppercase hover:text-red-400 transition-colors">Delete</button>
+              </div>
+            </div>
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <p className="text-center text-[#333] text-xs py-16">No products found.</p>
+        )}
+      </div>
+
+      {/* Desktop table (≥ md) */}
+      <div className="hidden md:block px-6 pb-16 overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[700px]">
           <thead>
             <tr className="border-b border-[#1e1e1e]">
@@ -612,8 +710,7 @@ export default function AdminPage() {
           </thead>
           <tbody>
             {filtered.map((p) => (
-              <tr key={p.id} className="border-b border-[#161616] hover:bg-[#131313] transition-colors group">
-                {/* Image */}
+              <tr key={p.id} className="border-b border-[#161616] hover:bg-[#131313] transition-colors">
                 <td className="py-3 pr-4">
                   <div className="w-10 h-14 bg-[#1a1a1a] rounded-sm overflow-hidden relative">
                     {p.image_url ? (
@@ -623,14 +720,10 @@ export default function AdminPage() {
                     )}
                   </div>
                 </td>
-
-                {/* Name */}
                 <td className="py-3 pr-4">
                   <p className="text-white text-xs font-medium">{p.name}</p>
                   <p className="text-[#555] text-[10px] mt-[2px]">{p.house}</p>
                 </td>
-
-                {/* Line */}
                 <td className="py-3 pr-4">
                   <span className={`text-[9px] tracking-[0.25em] uppercase px-2 py-[3px] rounded-sm ${
                     p.line === "Arabian"  ? "bg-[#d4a85318] text-[#d4a853]" :
@@ -638,20 +731,14 @@ export default function AdminPage() {
                                             "bg-[#b89fd418] text-[#b89fd4]"
                   }`}>{p.line}</span>
                 </td>
-
-                {/* Gender */}
                 <td className="py-3 pr-4">
                   <span className="text-[10px] text-[#555]">{p.gender}</span>
                 </td>
-
-                {/* Sizes */}
                 <td className="py-3 pr-4">
                   <span className="text-[10px] text-[#555]">
                     {(p.sizes ?? []).map((s) => `${s.ml}ml`).join(", ")}
                   </span>
                 </td>
-
-                {/* Stock toggle */}
                 <td className="py-3 pr-4">
                   <button
                     onClick={() => toggleStock(p)}
@@ -662,33 +749,21 @@ export default function AdminPage() {
                   </button>
                   <p className="text-[9px] mt-1 text-[#444]">{p.in_stock ? "In Stock" : "Out of Stock"}</p>
                 </td>
-
-                {/* Actions */}
                 <td className="py-3">
                   <div className="flex gap-4">
-                    <button
-                      onClick={() => openEdit(p)}
-                      className="text-[10px] tracking-[0.3em] text-[#666] uppercase hover:text-[#c4a97d] transition-colors"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteProduct(p.id, p.name)}
-                      className="text-[10px] tracking-[0.3em] text-[#444] uppercase hover:text-red-400 transition-colors"
-                    >
-                      Delete
-                    </button>
+                    <button onClick={() => openEdit(p)} className="text-[10px] tracking-[0.3em] text-[#666] uppercase hover:text-[#c4a97d] transition-colors">Edit</button>
+                    <button onClick={() => deleteProduct(p.id, p.name)} className="text-[10px] tracking-[0.3em] text-[#444] uppercase hover:text-red-400 transition-colors">Delete</button>
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-
         {filtered.length === 0 && (
           <p className="text-center text-[#333] text-xs py-16">No products found.</p>
         )}
       </div>
     </div>
+    </>
   );
 }

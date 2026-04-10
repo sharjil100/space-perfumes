@@ -148,7 +148,7 @@ export default function LoadingSplash() {
           {/* Logo — drops from top */}
           <div className="sp-logo mb-6" style={{ animationDelay: "0.1s" }}>
             <img src="/space-logo.png" alt="Space Perfumes"
-              className="h-44 sm:h-60 md:h-72 w-auto object-contain" />
+              className="h-56 sm:h-72 md:h-96 w-auto object-contain" />
           </div>
 
           {/* Top shimmer line */}
