@@ -68,11 +68,11 @@ export default function Header() {
 
           {/* Right icons */}
           <div className="flex items-center gap-5 z-10">
-            {/* Theme toggle */}
+            {/* Theme toggle — hidden on mobile, visible sm+ */}
             <button
               onClick={toggle}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="th-fg hover:text-[#c4a97d] transition-colors"
+              className="hidden sm:block th-fg hover:text-[#c4a97d] transition-colors"
             >
               {theme === "dark" ? (
                 /* Sun icon */
@@ -164,6 +164,32 @@ export default function Header() {
             </Link>
           ))}
         </nav>
+
+        {/* Theme toggle row — mobile only */}
+        <div className="sm:hidden flex items-center justify-center px-6 py-5 border-t border-[rgba(196,169,125,0.12)]">
+          <button
+            onClick={toggle}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            className="flex items-center gap-3 text-[9px] tracking-[0.4em] text-[#8a8076] uppercase hover:text-[#c4a97d] transition-colors"
+          >
+            {theme === "dark" ? (
+              <>
+                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" strokeLinecap="round" />
+                </svg>
+                Light Mode
+              </>
+            ) : (
+              <>
+                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
+                  <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Dark Mode
+              </>
+            )}
+          </button>
+        </div>
 
         {/* Social row */}
         <div className="flex items-center justify-center gap-8 px-6 py-7 border-t border-[rgba(196,169,125,0.12)]">
