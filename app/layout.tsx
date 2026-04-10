@@ -20,6 +20,11 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Space Perfumes — A Memory Held in Time",
   description: "Discover luxury fragrances crafted to awaken the senses and carry you through time.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
