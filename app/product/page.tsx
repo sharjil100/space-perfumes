@@ -170,7 +170,7 @@ export default function ProductPage() {
           Shop Decants
         </motion.h1>
         <motion.p variants={fadeUp} className="mt-2 text-[10px] tracking-[0.3em] text-[#8a8076] uppercase">
-          {filtered.length} fragrance{filtered.length !== 1 ? "s" : ""} · 3ml · 5ml · 10ml · 15ml
+          {filtered.length} fragrance{filtered.length !== 1 ? "s" : ""} · 3ml · 5ml · 10ml
         </motion.p>
       </motion.div>
 
@@ -272,7 +272,7 @@ export default function ProductPage() {
 
         {/* Decant sizes info */}
         <div className="mb-10 flex flex-wrap gap-6 text-[8px] tracking-[0.3em] text-[#8a8076] uppercase border-b border-[rgba(196,169,125,0.08)] pb-6">
-          {["3ml · 45 sprays", "5ml · 75 sprays", "10ml · 150 sprays", "15ml · 225 sprays"].map((s) => (
+          {["3ml · 45 sprays", "5ml · 75 sprays", "10ml · 150 sprays"].map((s) => (
             <span key={s} className="flex items-center gap-2">
               <span className="w-1 h-1 rounded-full bg-[#c4a97d] inline-block" />
               {s}

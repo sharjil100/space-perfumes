@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "How much fragrance is in each decant size?",
-    a: "Our decants come in 3 ml, 5 ml, 9 ml, and 15 ml sizes. To give you a sense of value: a typical spray is around 0.1 ml, so a 5 ml decant gives you approximately 50 sprays — enough for 25–50 full wearings depending on how many sprays you apply. A 15 ml decant can easily last 3–6 months of daily use.",
+    a: "Our decants come in 3 ml, 5 ml, and 10 ml sizes. To give you a sense of value: a typical spray is around 0.1 ml, so a 5 ml decant gives you approximately 50 sprays — enough for 25–50 full wearings depending on how many sprays you apply. A 10 ml decant can easily last 2–4 months of daily use.",
   },
   {
     q: "Are these authentic fragrances or copies?",
@@ -54,7 +54,7 @@ export default function FAQPage() {
 
       {/* Hero */}
       <section
-        className="relative flex items-center justify-center h-[45vh] overflow-hidden"
+        className="faq-hero relative flex items-center justify-center h-[45vh] overflow-hidden"
         style={{ background: "radial-gradient(ellipse at 50% 60%, #2e1f0e 0%, #1a1108 40%, #0c0b09 100%)" }}
       >
         <div

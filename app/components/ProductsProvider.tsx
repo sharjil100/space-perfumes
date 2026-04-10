@@ -4,6 +4,21 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { products as staticProducts, type Product } from "../lib/products";
 import { supabase } from "../lib/supabase";
 
+type SizeRow = { ml: number; price: number };
+
+const STANDARD_MLS = [3, 5, 10];
+
+function normalizeDecantSizes(raw: SizeRow[]): SizeRow[] {
+  if (!raw.length) return STANDARD_MLS.map((ml) => ({ ml, price: 0 }));
+  const existing = new Map(raw.map((s) => [s.ml, s.price]));
+  // average price-per-ml across all stored sizes for interpolation
+  const avgPricePerMl = raw.reduce((sum, s) => sum + s.price / s.ml, 0) / raw.length;
+  return STANDARD_MLS.map((ml) => ({
+    ml,
+    price: existing.has(ml) ? existing.get(ml)! : Math.round(avgPricePerMl * ml),
+  }));
+}
+
 type ProductsContextValue = {
   products: Product[];
   loading: boolean;
@@ -44,7 +59,7 @@ export default function ProductsProvider({ children }: { children: React.ReactNo
           occasions: row.occasions ?? [],
           seasons: row.seasons ?? [],
           bestSeller: row.best_seller ?? false,
-          sizes: row.sizes ?? [],
+          sizes: normalizeDecantSizes(row.sizes ?? []),
           inspiredBy: row.inspired_by ?? undefined,
           description: row.description ?? undefined,
           imageUrl: row.image_url ?? undefined,

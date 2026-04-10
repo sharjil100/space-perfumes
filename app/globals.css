@@ -136,6 +136,10 @@ html.light .hover\:bg-gray-800:hover          { background-color: #3a3530; }
 /* ── Select options dropdown ── */
 html.light select option { background: #f0e8db; color: #1a1612; }
 
+/* ── FAQ hero: keep dark gradient in light mode, restore light text ── */
+html.light .faq-hero .text-\[\#e8e0d4\] { color: #e8e0d4 !important; }
+html.light .faq-hero .text-\[\#c4a97d\] { color: #c4a97d !important; }
+
 /* ─────────────────────────────────────────────
    DARK ZONES — always stay dark regardless of theme
    ───────────────────────────────────────────── */
