@@ -102,6 +102,13 @@ export default function LoadingSplash() {
           animation: curtainUp ${EXIT_DURATION}ms cubic-bezier(.85,0,.15,1) forwards;
           transform-origin: bottom;
         }
+        @keyframes contentFadeOut {
+          from { opacity:1; }
+          to   { opacity:0; }
+        }
+        .content-exit {
+          animation: contentFadeOut 300ms ease forwards;
+        }
       `}</style>
 
       <div
@@ -136,7 +143,7 @@ export default function LoadingSplash() {
         ))}
 
         {/* Centered content */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full px-6">
+        <div className={`relative z-10 flex flex-col items-center justify-center h-full px-6 ${exiting ? "content-exit" : ""}`}>
 
           {/* Logo — drops from top */}
           <div className="sp-logo mb-6" style={{ animationDelay: "0.1s" }}>
