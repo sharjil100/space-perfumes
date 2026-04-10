@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { products, LINES, GENDERS, type Line, type Gender, type Product, type DecantSize } from "../lib/products";
+import { LINES, GENDERS, type Line, type Gender, type Product, type DecantSize } from "../lib/products";
+import { useProducts } from "../components/ProductsProvider";
 import { fadeUp, fadeIn, stagger, staggerFast, scaleIn, slideLeft } from "../lib/motion";
 
 // ── Per-card component handles its own size selection ──────────────────────
@@ -45,6 +46,13 @@ function ProductCard({ p }: { p: Product }) {
         <div className="absolute bottom-0 left-0 right-0 bg-[#0c0b09]/92 py-3 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300">
           <span className="text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase">Add to Cart</span>
         </div>
+
+        {/* Out of stock overlay */}
+        {p.inStock === false && (
+          <div className="absolute inset-0 bg-[#0c0b09]/70 flex items-center justify-center">
+            <span className="text-[8px] tracking-[0.4em] uppercase text-[#8a8076] border border-[#8a8076]/40 px-3 py-1">Out of Stock</span>
+          </div>
+        )}
       </div>
 
       {/* Meta */}
@@ -112,6 +120,7 @@ function Chip({
 const SORT = ["Default", "Price: Low to High", "Price: High to Low", "Name A-Z"] as const;
 
 export default function ProductPage() {
+  const { products } = useProducts();
   const [activeLine, setActiveLine] = useState<Line>("All");
   const [activeGender, setActiveGender] = useState<Gender>("All");
   const [activeSort, setActiveSort] = useState<string>("Default");

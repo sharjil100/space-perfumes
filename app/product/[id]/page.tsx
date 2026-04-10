@@ -6,7 +6,8 @@ import { use } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { products, type DecantSize } from "../../lib/products";
+import type { DecantSize } from "../../lib/products";
+import { useProducts } from "../../components/ProductsProvider";
 import { fadeUp, fadeIn, stagger, scaleIn } from "../../lib/motion";
 
 const lineColor: Record<string, string> = {
@@ -15,25 +16,18 @@ const lineColor: Record<string, string> = {
   Niche:    "#b89fd4",
 };
 
-const PRODUCT_IMAGES: Record<string, string> = {
-  "khamrah":     "/khamrah.png",
-  "sauvage-edp": "/sauvage-edp.png",
-  "hawas":       "/hawas.png",
-  "eros-edp":    "/eros-edp.png",
-  "y-edp":       "/y-edp.png",
-};
-
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const { products } = useProducts();
   const product = products.find((p) => p.id === id);
   if (!product) notFound();
 
   const defaultSize = product.sizes[1] ?? product.sizes[0];
-  const [selected, setSelected] = useState<DecantSize>(defaultSize);
+  const [selected, setSelected] = useState<DecantSize>(defaultSize ?? product.sizes[0]);
   const router = useRouter();
 
   const color = lineColor[product.line];
-  const image = PRODUCT_IMAGES[product.id];
+  const image = product.imageUrl;
 
   // Related: same line, different product, up to 4
   const related = products
@@ -129,6 +123,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               >
                 {product.line} Line
               </span>
+              {product.inStock === false && (
+                <span className="text-[8px] tracking-[0.35em] uppercase border border-red-500/40 text-red-400 px-3 py-1">
+                  Out of Stock
+                </span>
+              )}
             </motion.div>
 
             {/* Inspired By banner */}
@@ -259,9 +258,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <motion.div key={p.id} variants={scaleIn}>
                 <Link href={`/product/${p.id}`} className="group block">
                   <div className="aspect-[3/4] th-card overflow-hidden relative mb-3">
-                    {PRODUCT_IMAGES[p.id] ? (
+                    {p.imageUrl ? (
                       <Image
-                        src={PRODUCT_IMAGES[p.id]}
+                        src={p.imageUrl}
                         alt={p.name}
                         fill
                         className="object-cover object-center transition-transform duration-500 group-hover:scale-105"

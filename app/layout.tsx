@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import LoadingSplash from "./components/LoadingSplash";
 import ThemeProvider from "./components/ThemeProvider";
 import PageTransition from "./components/PageTransition";
+import ProductsProvider from "./components/ProductsProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,10 +36,12 @@ export default function RootLayout({
         {/* No-flash theme script — runs before React hydrates */}
         <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('sp-theme');var L={"--bg":"#e8e8e8","--bg-2":"#dcdcdc","--bg-card":"#d0d0d0","--fg":"#1a1612","--muted":"#5a5450","--accent":"#8a6a3a","--border":"rgba(26,22,18,0.18)"};var D={"--bg":"#0c0b09","--bg-2":"#161410","--bg-card":"#1e1b16","--fg":"#e8e0d4","--muted":"#8a8076","--accent":"#c4a97d","--border":"rgba(196,169,125,0.18)"};var vars=t==='light'?L:D;var r=document.documentElement;for(var k in vars){r.style.setProperty(k,vars[k]);}if(t==='light')r.classList.add('light');}catch(e){}` }} />
         <ThemeProvider>
-          <LoadingSplash />
-          <Header />
-          <main className="flex-1"><PageTransition>{children}</PageTransition></main>
-          <Footer />
+          <ProductsProvider>
+            <LoadingSplash />
+            <Header />
+            <main className="flex-1"><PageTransition>{children}</PageTransition></main>
+            <Footer />
+          </ProductsProvider>
         </ThemeProvider>
       </body>
     </html>

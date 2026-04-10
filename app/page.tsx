@@ -6,7 +6,7 @@ import HeroSlider from "./components/HeroSlider";
 import ScrollBottleSection from "./components/ScrollBottleSection";
 import MarqueeTicker from "./components/MarqueeTicker";
 import HotDeals from "./components/HotDeals";
-import { products } from "./lib/products";
+import { useProducts } from "./components/ProductsProvider";
 import { fadeUp, fadeIn, stagger, scaleIn } from "./lib/motion";
 
 const lines = [
@@ -36,9 +36,9 @@ const lines = [
   },
 ];
 
-const bestsellers = products.filter((p) => p.bestSeller).slice(0, 6);
-
 export default function Home() {
+  const { products } = useProducts();
+  const bestsellers = products.filter((p) => p.bestSeller).slice(0, 6);
   return (
     <div className="th-bg">
 

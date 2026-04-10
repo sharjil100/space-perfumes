@@ -13,6 +13,8 @@ export type Product = {
   sizes: DecantSize[];
   inspiredBy?: { name: string; house: string };
   description?: string;
+  imageUrl?: string;
+  inStock?: boolean;
 };
 
 export const LINES = ["All", "Arabian", "Designer", "Niche"] as const;

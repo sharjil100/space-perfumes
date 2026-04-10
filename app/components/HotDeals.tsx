@@ -4,17 +4,8 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useAnimationFrame } from "framer-motion";
-import { products } from "../lib/products";
+import { useProducts } from "./ProductsProvider";
 import { fadeUp, stagger } from "../lib/motion";
-
-// Map product id → public image path (only ids that have an image)
-const PRODUCT_IMAGES: Record<string, string> = {
-  "khamrah":      "/khamrah.png",
-  "sauvage-edp":  "/sauvage-edp.png",
-  "hawas":        "/hawas.png",
-  "eros-edp":     "/eros-edp.png",
-  "y-edp":        "/y-edp.png",
-};
 
 const DEAL_IDS = [
   { id: "khamrah",       discount: 15 },
@@ -32,18 +23,20 @@ const lineColor: Record<string, string> = {
   Niche:    "#b89fd4",
 };
 
-const deals = DEAL_IDS.map(({ id, discount }) => {
-  const product = products.find((p) => p.id === id)!;
-  const size = product.sizes[1] ?? product.sizes[0];
-  const original = size.price;
-  const sale = Math.round(original * (1 - discount / 100));
-  return { product, size, original, sale, discount };
-});
-
-// Duplicate for seamless loop
-const track = [...deals, ...deals];
-
 export default function HotDeals() {
+  const { products } = useProducts();
+  const deals = DEAL_IDS.map(({ id, discount }) => {
+    const product = products.find((p) => p.id === id);
+    if (!product) return null;
+    const size = product.sizes[1] ?? product.sizes[0];
+    const original = size.price;
+    const sale = Math.round(original * (1 - discount / 100));
+    return { product, size, original, sale, discount };
+  }).filter(Boolean) as Array<{ product: NonNullable<ReturnType<typeof products.find>>; size: { ml: number; price: number }; original: number; sale: number; discount: number }>;
+
+  // Duplicate for seamless loop
+  const track = [...deals, ...deals];
+
   const trackRef = useRef<HTMLDivElement>(null);
   const xRef = useRef(0);
   const pausedRef = useRef(false);
@@ -95,9 +88,9 @@ export default function HotDeals() {
           >
             {/* Card */}
             <div className="aspect-[3/4] th-card overflow-hidden relative mb-4 transition-transform duration-500 group-hover:scale-[1.02]">
-              {PRODUCT_IMAGES[product.id] ? (
+              {product.imageUrl ? (
                 <Image
-                  src={PRODUCT_IMAGES[product.id]}
+                  src={product.imageUrl}
                   alt={product.name}
                   fill
                   className="object-cover object-center"

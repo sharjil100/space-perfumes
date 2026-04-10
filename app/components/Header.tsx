@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
-import { products, type Product } from "../lib/products";
+import { useProducts } from "./ProductsProvider";
+import type { Product } from "../lib/products";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -19,6 +20,7 @@ const navLinks = [
 
 export default function Header() {
   const { theme, toggle } = useTheme();
+  const { products } = useProducts();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
