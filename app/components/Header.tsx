@@ -31,13 +31,9 @@ export default function Header() {
 
   const results: Product[] = query.trim().length >= 2
     ? products.filter((p) => {
-        const q = query.toLowerCase();
-        return (
-          p.name.toLowerCase().includes(q) ||
-          p.house.toLowerCase().includes(q) ||
-          p.line.toLowerCase().includes(q) ||
-          p.notes.some((n) => n.toLowerCase().includes(q))
-        );
+        const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+        const haystack = [p.name, p.house, p.line, ...p.notes].join(" ").toLowerCase();
+        return words.every((w) => haystack.includes(w));
       }).slice(0, 8)
     : [];
 
