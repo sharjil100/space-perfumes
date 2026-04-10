@@ -104,6 +104,14 @@ export default function LoadingSplash() {
           80%  { animation-timing-function: cubic-bezier(0.4,0,1,1); transform:translateY(0) rotate(0deg); }
           100% { transform:translateY(0) translateX(-28px) rotate(-88deg); }
         }
+        @keyframes heroBottleDrop {
+          0%   { opacity:0; transform:translateY(-360px) scale(0.9) rotate(-4deg); animation-timing-function: cubic-bezier(0.55,0.055,0.675,0.19); }
+          60%  { opacity:1; transform:translateY(12px) scale(1.02) rotate(1deg); animation-timing-function: cubic-bezier(0.16,0.84,0.44,1); }
+          76%  { transform:translateY(-6px) scale(1) rotate(-0.5deg); }
+          88%  { transform:translateY(3px) scale(1) rotate(0deg); }
+          100% { opacity:1; transform:translateY(0) scale(1) rotate(0deg); }
+        }
+        .sp-hero-bottle { animation: heroBottleDrop 1.3s both; }
         .sp-logo     { animation: logoReveal 1.5s cubic-bezier(.16,.84,.44,1) both; }
         .sp-bottle-1 { animation: bottleFall1 1.4s both; }
         .sp-bottle-2 { animation: bottleFall2 2.5s both; }
@@ -160,16 +168,16 @@ export default function LoadingSplash() {
         ))}
 
         {/* Centered content */}
-        <div className={`relative z-10 flex flex-col items-center justify-center h-full px-6 ${exiting ? "content-exit" : ""}`}>
+        <div className={`relative z-10 flex flex-col items-center justify-center h-full px-6 pb-[18vh] ${exiting ? "content-exit" : ""}`}>
 
           {/* Logo — drops from top */}
-          <div className="sp-logo mb-4" style={{ animationDelay: "0.1s" }}>
+          <div className="sp-logo mb-1" style={{ animationDelay: "0.1s" }}>
             <img src="/space-logo.png" alt="Space Perfumes"
-              className="h-56 sm:h-72 md:h-96 w-auto object-contain" />
+              className="h-52 sm:h-64 md:h-80 w-auto object-contain" />
           </div>
 
           {/* Top shimmer line */}
-          <div className="w-14 h-px bg-[#c4a97d] origin-left sp-shimmer mb-8"
+          <div className="w-14 h-px bg-[#c4a97d] origin-left sp-shimmer mb-6"
             style={{ animationDelay: "1.0s" }} />
 
           {/* Punchline flanked by falling decant bottles */}
