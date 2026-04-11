@@ -6,6 +6,7 @@ import HeroSlider from "./components/HeroSlider";
 import ScrollBottleSection from "./components/ScrollBottleSection";
 import MarqueeTicker from "./components/MarqueeTicker";
 import HotDeals from "./components/HotDeals";
+import ReviewsSection from "./components/ReviewsSection";
 import { useProducts } from "./components/ProductsProvider";
 import { fadeUp, fadeIn, stagger, scaleIn } from "./lib/motion";
 
@@ -312,7 +313,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Customer Reviews ── */}
+      <ReviewsSection />
+
     </div>
   );
 }
-

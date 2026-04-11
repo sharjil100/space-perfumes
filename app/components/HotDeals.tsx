@@ -24,8 +24,6 @@ export default function HotDeals() {
       return { product, size, original, sale, discount };
     });
 
-  if (deals.length === 0) return null;
-
   // Duplicate for seamless loop
   const track = [...deals, ...deals];
 
@@ -34,12 +32,14 @@ export default function HotDeals() {
   const pausedRef = useRef(false);
 
   useAnimationFrame((_, delta) => {
-    if (pausedRef.current || !trackRef.current) return;
-    xRef.current -= delta * 0.09; // px per ms → ~90px/sec
+    if (pausedRef.current || !trackRef.current || deals.length === 0) return;
+    xRef.current -= delta * 0.09;
     const halfWidth = trackRef.current.scrollWidth / 2;
     if (Math.abs(xRef.current) >= halfWidth) xRef.current = 0;
     trackRef.current.style.transform = `translateX(${xRef.current}px)`;
   });
+
+  if (deals.length === 0) return null;
 
   return (
     <section className="py-20 px-6 lg:px-12 border-b border-[rgba(196,169,125,0.1)]">
