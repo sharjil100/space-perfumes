@@ -153,7 +153,15 @@ export default function Home() {
                     className="group flex-shrink-0 w-48 lg:w-auto block"
                   >
                     <div className="aspect-[3/4] overflow-hidden th-card mb-4 relative">
-                      <div className="w-full h-full transition-transform duration-500 group-hover:scale-105 th-card" />
+                      {p.imageUrl ? (
+                        <img
+                          src={p.imageUrl}
+                          alt={p.name}
+                          className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full transition-transform duration-500 group-hover:scale-105 th-card" />
+                      )}
                       <span className="absolute top-2 left-2 text-[7px] tracking-[0.3em] uppercase bg-[#c4a97d] text-[#0c0b09] px-2 py-[3px]">
                         {p.line}
                       </span>
