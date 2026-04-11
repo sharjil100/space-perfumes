@@ -4,7 +4,6 @@ import { useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { use } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import type { DecantSize } from "../../lib/products";
 import { useProducts } from "../../components/ProductsProvider";
@@ -60,13 +59,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             className="aspect-[3/4] th-card relative overflow-hidden"
           >
             {image ? (
-              <Image
+              <img
                 src={image}
                 alt={product.name}
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
+                className="w-full h-full object-cover object-center"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
