@@ -33,7 +33,12 @@ export function useProducts() {
   return useContext(ProductsContext);
 }
 
-export default function ProductsProvider({ children }: { children: React.ReactNode }) {
+function cloudinaryUrl(url: string | undefined | null): string | undefined {
+  if (!url) return undefined;
+  return `https://res.cloudinary.com/diyelmgg3/image/fetch/f_auto,q_auto,w_600/${url}`;
+}
+
+({ children }: { children: React.ReactNode }) {
   const [products, setProducts] = useState<Product[]>(staticProducts);
   const [loading, setLoading] = useState(false);
 
@@ -62,7 +67,7 @@ export default function ProductsProvider({ children }: { children: React.ReactNo
           sizes: normalizeDecantSizes(row.sizes ?? []),
           inspiredBy: row.inspired_by ?? undefined,
           description: row.description ?? undefined,
-          imageUrl: row.image_url ?? undefined,
+          imageUrl: cloudinaryUrl(row.image_url),
           inStock: row.in_stock ?? true,
         }));
 
