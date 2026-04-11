@@ -7,6 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { DecantSize } from "../../lib/products";
 import { useProducts } from "../../components/ProductsProvider";
+import { useCart } from "../../lib/cart";
 import { fadeUp, fadeIn, stagger, scaleIn } from "../../lib/motion";
 
 const lineColor: Record<string, string> = {
@@ -24,6 +25,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const defaultSize = product.sizes[1] ?? product.sizes[0];
   const [selected, setSelected] = useState<DecantSize>(defaultSize ?? product.sizes[0]);
   const router = useRouter();
+  const { addItem } = useCart();
 
   const color = lineColor[product.line];
   const image = product.imageUrl;
@@ -222,8 +224,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <p className="text-2xl text-[#c4a97d] tracking-wider">৳{selected.price}</p>
                 <p className="text-[8px] text-[#8a8076] mt-1">{selected.ml}ml decant · authentic</p>
               </div>
-              <button className="flex-1 max-w-[220px] border border-[#c4a97d] py-4 text-[10px] tracking-[0.5em] text-[#c4a97d] uppercase hover:bg-[#c4a97d] hover:text-[#0c0b09] transition-all duration-300">
-                Add to Cart
+              <button
+                onClick={() => addItem({ productId: product.id, name: product.name, house: product.house, line: product.line, ml: selected.ml, price: selected.price, imageUrl: product.imageUrl })}
+                disabled={product.inStock === false}
+                className="flex-1 max-w-[220px] border border-[#c4a97d] py-4 text-[10px] tracking-[0.5em] text-[#c4a97d] uppercase hover:bg-[#c4a97d] hover:text-[#0c0b09] transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {product.inStock === false ? "Out of Stock" : "Add to Cart"}
               </button>
             </motion.div>
           </motion.div>

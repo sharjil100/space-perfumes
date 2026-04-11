@@ -54,7 +54,28 @@ const emptyForm: FormData = {
   imageUrl: "",
 };
 
-type View = "loading" | "login" | "dashboard" | "form" | "reviews" | "review-form";
+type View = "loading" | "login" | "dashboard" | "form" | "reviews" | "review-form" | "orders";
+
+// ── Order Types ─────────────────────────────────────────────────────────────
+type OrderItem = { name: string; house: string; ml: number; qty: number; price: number };
+type Order = {
+  id: string;
+  order_id: string;
+  customer_name: string;
+  phone: string;
+  address: string;
+  apartment?: string | null;
+  city: string;
+  items: OrderItem[];
+  shipping_method: string;
+  shipping_cost: number;
+  payment_method: string;
+  subtotal: number;
+  discount: number;
+  total: number;
+  status: string;
+  created_at: string;
+};
 
 // ── Review Types ────────────────────────────────────────────────────────────
 type Review = {
@@ -155,6 +176,10 @@ export default function AdminPage() {
   const [reviewScreenshotFile, setReviewScreenshotFile] = useState<File | null>(null);
   const [reviewScreenshotPreview, setReviewScreenshotPreview] = useState("");
 
+  // Orders state
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoaded, setOrdersLoaded] = useState(false);
+
   function askConfirm(message: string, onConfirm: () => void) {
     setConfirmDialog({ message, onConfirm });
   }
@@ -163,7 +188,7 @@ export default function AdminPage() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) {
-        Promise.all([loadProducts(), loadReviews()]).then(() => setView("dashboard"));
+        Promise.all([loadProducts(), loadReviews(), loadOrders()]).then(() => setView("dashboard"));
       } else {
         setView("login");
       }
@@ -178,6 +203,17 @@ export default function AdminPage() {
   async function loadReviews() {
     const { data } = await supabase.from("reviews").select("*").order("created_at", { ascending: false });
     setReviews(data ?? []);
+  }
+
+  async function loadOrders() {
+    const { data } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
+    setOrders(data ?? []);
+    setOrdersLoaded(true);
+  }
+
+  async function updateOrderStatus(id: string, status: string) {
+    await supabase.from("orders").update({ status }).eq("id", id);
+    setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status } : o));
   }
 
   async function saveReview() {
@@ -247,7 +283,7 @@ export default function AdminPage() {
     if (error) {
       setLoginError("Invalid email or password.");
     } else {
-      await Promise.all([loadProducts(), loadReviews()]);
+      await Promise.all([loadProducts(), loadReviews(), loadOrders()]);
       setView("dashboard");
     }
   }
@@ -859,9 +895,139 @@ export default function AdminPage() {
     );
   }
 
+  // ── Orders View ────────────────────────────────────────────────────────────
+  if (view === "orders") {
+    const statusColors: Record<string, string> = {
+      pending:    "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
+      confirmed:  "bg-blue-500/15 text-blue-400 border-blue-500/30",
+      shipped:    "bg-purple-500/15 text-purple-400 border-purple-500/30",
+      delivered:  "bg-green-500/15 text-green-400 border-green-500/30",
+      cancelled:  "bg-red-500/15 text-red-400 border-red-500/30",
+    };
+    const STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
+
+    return (
+      <>
+        {ConfirmModal}
+        <div className="min-h-screen bg-[#0f0f0f] text-white">
+          {/* Header */}
+          <div className="sticky top-0 z-10 border-b border-[#2a2a2a] bg-[#0f0f0f] px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button onClick={() => setView("dashboard")} className="text-[#666] hover:text-white text-sm transition-colors">← Back</button>
+              <h1 className="text-[11px] tracking-[0.4em] uppercase text-[#666]">Orders</h1>
+            </div>
+            <button
+              onClick={loadOrders}
+              className="text-[10px] tracking-[0.35em] text-[#555] uppercase hover:text-white transition-colors"
+            >
+              Refresh
+            </button>
+          </div>
+
+          {!ordersLoaded ? (
+            <div className="flex items-center justify-center py-32">
+              <div className="w-6 h-6 border-2 border-[#c4a97d] border-t-transparent rounded-full animate-spin" />
+            </div>
+          ) : orders.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-32 gap-3">
+              <p className="text-[#444] text-sm">No orders yet.</p>
+            </div>
+          ) : (
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-4">
+              {orders.map((o) => {
+                const date = new Date(o.created_at).toLocaleDateString("en-GB", {
+                  day: "2-digit", month: "short", year: "numeric",
+                });
+                const time = new Date(o.created_at).toLocaleTimeString("en-GB", {
+                  hour: "2-digit", minute: "2-digit",
+                });
+                return (
+                  <div key={o.id} className="bg-[#161616] border border-[#222] rounded-sm">
+                    {/* Order header row */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-[#1e1e1e]">
+                      <div className="flex items-center gap-4 flex-wrap">
+                        <span className="font-mono text-[11px] text-[#c4a97d] tracking-widest">{o.order_id}</span>
+                        <span className="text-[10px] text-[#555]">{date} · {time}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className={`text-[9px] tracking-[0.25em] uppercase border px-2.5 py-1 rounded-sm ${statusColors[o.status] ?? "bg-[#2a2a2a] text-[#888] border-[#333]"}`}>
+                          {o.status}
+                        </span>
+                        <select
+                          value={o.status}
+                          onChange={(e) => updateOrderStatus(o.id, e.target.value)}
+                          className="bg-[#1a1a1a] border border-[#2a2a2a] text-[#888] text-[10px] px-2 py-1 rounded-sm focus:outline-none focus:border-[#c4a97d] cursor-pointer"
+                        >
+                          {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-[#1e1e1e]">
+                      {/* Customer */}
+                      <div className="px-5 py-4 space-y-1">
+                        <p className="text-[9px] tracking-[0.4em] text-[#555] uppercase mb-2">Customer</p>
+                        <p className="text-sm text-white">{o.customer_name}</p>
+                        <p className="text-[11px] text-[#888]">{o.phone}</p>
+                        <p className="text-[11px] text-[#666] leading-relaxed">{o.address}{o.apartment ? `, ${o.apartment}` : ""}, {o.city}</p>
+                        <p className="text-[10px] text-[#555] pt-1">
+                          <span className="capitalize">{o.payment_method}</span>
+                          {" · "}
+                          <span>{o.shipping_method}</span>
+                        </p>
+                      </div>
+
+                      {/* Items */}
+                      <div className="px-5 py-4">
+                        <p className="text-[9px] tracking-[0.4em] text-[#555] uppercase mb-3">Items</p>
+                        <div className="space-y-2">
+                          {(Array.isArray(o.items) ? o.items : JSON.parse(o.items as unknown as string) as OrderItem[]).map((item, i) => (
+                            <div key={i} className="flex justify-between items-start gap-2">
+                              <div>
+                                <p className="text-[11px] text-[#e8e0d4] leading-tight">{item.name}</p>
+                                <p className="text-[9px] text-[#555]">{item.house} · {item.ml}ml × {item.qty}</p>
+                              </div>
+                              <p className="text-[11px] text-[#888] shrink-0">৳{item.price * item.qty}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Totals */}
+                      <div className="px-5 py-4">
+                        <p className="text-[9px] tracking-[0.4em] text-[#555] uppercase mb-3">Summary</p>
+                        <div className="space-y-1.5 text-[10px]">
+                          <div className="flex justify-between text-[#666]">
+                            <span>Subtotal</span><span>৳{o.subtotal}</span>
+                          </div>
+                          <div className="flex justify-between text-[#666]">
+                            <span>Shipping</span><span>৳{o.shipping_cost}</span>
+                          </div>
+                          {o.discount > 0 && (
+                            <div className="flex justify-between text-[#c4a97d]">
+                              <span>Discount</span><span>−৳{o.discount}</span>
+                            </div>
+                          )}
+                          <div className="flex justify-between text-white text-xs font-medium pt-2 border-t border-[#2a2a2a] mt-2">
+                            <span>Total</span><span>৳{o.total}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
+
   // ── Dashboard ──────────────────────────────────────────────────────────────
   const outOfStock = products.filter((p) => !p.in_stock).length;
   const hotDeals = products.filter((p) => (p.discount ?? 0) > 0).length;
+  const pendingOrders = orders.filter((o) => o.status === "pending").length;
 
   return (
     <>
@@ -876,6 +1042,17 @@ export default function AdminPage() {
           Space Perfumes <span className="text-[#c4a97d] font-semibold">· Admin</span>
         </h1>
         <div className="flex items-center gap-4">
+          <button
+            onClick={() => { loadOrders(); setView("orders"); }}
+            className="relative text-[10px] tracking-[0.35em] text-[#e8e0d4] uppercase border border-[#e8e0d4]/20 px-4 py-2 hover:border-[#e8e0d4]/60 transition-colors"
+          >
+            Orders
+            {orders.filter((o) => o.status === "pending").length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                {orders.filter((o) => o.status === "pending").length}
+              </span>
+            )}
+          </button>
           <button
             onClick={() => { loadReviews(); setView("reviews"); }}
             className="text-[10px] tracking-[0.35em] text-[#c4a97d] uppercase border border-[#c4a97d]/30 px-4 py-2 hover:border-[#c4a97d] transition-colors"
@@ -895,6 +1072,7 @@ export default function AdminPage() {
           <Stat label="In Stock" value={products.length - outOfStock} />
           <Stat label="Out of Stock" value={outOfStock} accent={outOfStock > 0} />
           <Stat label="Hot Deals" value={hotDeals} />
+          <Stat label="Pending Orders" value={pendingOrders} accent={pendingOrders > 0} />
         </div>
         <button
           onClick={openAdd}

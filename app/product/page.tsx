@@ -6,12 +6,14 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { LINES, GENDERS, type Line, type Gender, type Product, type DecantSize } from "../lib/products";
 import { useProducts } from "../components/ProductsProvider";
+import { useCart } from "../lib/cart";
 import { fadeUp, fadeIn, stagger, staggerFast, scaleIn, slideLeft } from "../lib/motion";
 
 // ── Per-card component handles its own size selection ──────────────────────
 function ProductCard({ p }: { p: Product }) {
   const defaultSize = p.sizes[1] ?? p.sizes[0];
   const [selected, setSelected] = useState<DecantSize>(defaultSize);
+  const { addItem } = useCart();
 
   const lineColor: Record<string, string> = {
     Arabian: "text-[#d4a853]",
@@ -54,9 +56,18 @@ function ProductCard({ p }: { p: Product }) {
         </span>
 
         {/* Quick-add hover bar */}
-        <div className="absolute bottom-0 left-0 right-0 bg-[#0c0b09]/92 py-3 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-          <span className="text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase">Add to Cart</span>
-        </div>
+        {p.inStock !== false && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              addItem({ productId: p.id, name: p.name, house: p.house, line: p.line, ml: selected.ml, price: selected.price, imageUrl: p.imageUrl });
+            }}
+            className="absolute bottom-0 left-0 right-0 bg-[#0c0b09]/92 py-3 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+          >
+            <span className="text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase">Add to Cart</span>
+          </button>
+        )}
 
         {/* Out of stock overlay */}
         {p.inStock === false && (

@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 import { useProducts } from "./ProductsProvider";
+import { useCart } from "../lib/cart";
 import type { Product } from "../lib/products";
 
 const navLinks = [
@@ -21,11 +22,11 @@ const navLinks = [
 export default function Header() {
   const { theme, toggle } = useTheme();
   const { products } = useProducts();
+  const { totalItems, openDrawer } = useCart();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [cartCount] = useState(0);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -139,15 +140,15 @@ export default function Header() {
             </button>
 
             {/* Basket */}
-            <button aria-label="Basket" className="relative th-fg hover:text-[#c4a97d] transition-colors">
+            <button onClick={openDrawer} aria-label="Basket" className="relative th-fg hover:text-[#c4a97d] transition-colors">
               <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
-              {cartCount > 0 && (
+              {totalItems > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-[#c4a97d] text-[#0c0b09] rounded-full w-4 h-4 text-[9px] flex items-center justify-center font-bold">
-                  {cartCount}
+                  {totalItems}
                 </span>
               )}
             </button>

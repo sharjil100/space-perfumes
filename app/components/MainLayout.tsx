@@ -2,6 +2,7 @@
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
+import CartDrawer from "./CartDrawer";
 import LoadingSplash from "./LoadingSplash";
 import PageTransition from "./PageTransition";
 
@@ -17,6 +18,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     <>
       <LoadingSplash />
       <Header />
+      <CartDrawer />
       <main className="flex-1">
         <PageTransition>{children}</PageTransition>
       </main>
