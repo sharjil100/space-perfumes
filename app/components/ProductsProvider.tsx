@@ -69,6 +69,7 @@ export default function ProductsProvider({ children }: { children: React.ReactNo
           description: row.description ?? undefined,
           imageUrl: cloudinaryUrl(row.image_url),
           inStock: row.in_stock ?? true,
+          discount: row.discount ?? 0,
         }));
 
         setProducts(mapped);

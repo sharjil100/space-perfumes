@@ -18,6 +18,7 @@ type AdminProduct = {
   seasons: string[];
   best_seller: boolean;
   in_stock: boolean;
+  discount: number;
   sizes: SizeRow[];
   inspired_by?: { name: string; house: string } | null;
   description?: string | null;
@@ -35,6 +36,7 @@ type FormData = {
   seasons: string;
   bestSeller: boolean;
   inStock: boolean;
+  discount: number;
   description: string;
   inspiredByName: string;
   inspiredByHouse: string;
@@ -46,7 +48,7 @@ const emptyForm: FormData = {
   id: "", name: "", house: "",
   line: "Arabian", gender: "Him",
   notes: "", occasions: "", seasons: "",
-  bestSeller: false, inStock: true,
+  bestSeller: false, inStock: true, discount: 0,
   description: "", inspiredByName: "", inspiredByHouse: "",
   sizes: [{ ml: 5, price: 0 }],
   imageUrl: "",
@@ -174,6 +176,7 @@ export default function AdminPage() {
       seasons: (p.seasons ?? []).join(", "),
       bestSeller: p.best_seller ?? false,
       inStock: p.in_stock ?? true,
+      discount: p.discount ?? 0,
       description: p.description ?? "",
       inspiredByName: p.inspired_by?.name ?? "",
       inspiredByHouse: p.inspired_by?.house ?? "",
@@ -235,6 +238,7 @@ export default function AdminPage() {
         seasons: form.seasons.split(",").map((s) => s.trim()).filter(Boolean),
         best_seller: form.bestSeller,
         in_stock: form.inStock,
+        discount: form.discount || 0,
         description: form.description.trim() || null,
         inspired_by: form.inspiredByName.trim()
           ? { name: form.inspiredByName.trim(), house: form.inspiredByHouse.trim() }
@@ -414,8 +418,24 @@ export default function AdminPage() {
               <div className="flex flex-col gap-4 pt-6">
                 <Toggle label="Best Seller" value={form.bestSeller} onChange={(v) => setForm({ ...form, bestSeller: v })} />
                 <Toggle label="In Stock" value={form.inStock} onChange={(v) => setForm({ ...form, inStock: v })} />
+                <Toggle label="Hot Deal" value={form.discount > 0} onChange={(v) => setForm({ ...form, discount: v ? 10 : 0 })} />
               </div>
             </div>
+            {form.discount > 0 && (
+              <div className="mt-4">
+                <Field label="Discount Percentage (%)">
+                  <input
+                    type="number"
+                    min={1}
+                    max={99}
+                    value={form.discount || ""}
+                    onChange={(e) => setForm({ ...form, discount: Math.min(99, Math.max(0, +e.target.value)) })}
+                    placeholder="e.g. 15"
+                    className={inputCls + " w-32"}
+                  />
+                </Field>
+              </div>
+            )}
           </section>
 
           {/* Image */}
@@ -582,6 +602,7 @@ export default function AdminPage() {
 
   // ── Dashboard ──────────────────────────────────────────────────────────────
   const outOfStock = products.filter((p) => !p.in_stock).length;
+  const hotDeals = products.filter((p) => (p.discount ?? 0) > 0).length;
 
   return (
     <>
@@ -606,6 +627,7 @@ export default function AdminPage() {
           <Stat label="Total Products" value={products.length} />
           <Stat label="In Stock" value={products.length - outOfStock} />
           <Stat label="Out of Stock" value={outOfStock} accent={outOfStock > 0} />
+          <Stat label="Hot Deals" value={hotDeals} />
         </div>
         <button
           onClick={openAdd}
@@ -669,6 +691,9 @@ export default function AdminPage() {
                   <span className="text-[9px] tracking-[0.2em] uppercase text-[#555] border border-[#2a2a2a] px-2 py-[2px] rounded-sm">{p.gender}</span>
                 </div>
                 <p className="text-[10px] text-[#444] mt-1">{(p.sizes ?? []).map((s) => `${s.ml}ml`).join(" · ")}</p>
+                {(p.discount ?? 0) > 0 && (
+                  <span className="inline-block mt-1 text-[9px] tracking-[0.2em] uppercase bg-[#c4a97d20] text-[#c4a97d] px-2 py-[2px] rounded-sm">−{p.discount}% Deal</span>
+                )}
               </div>
             </div>
             {/* Footer row */}
@@ -738,6 +763,9 @@ export default function AdminPage() {
                   <span className="text-[10px] text-[#555]">
                     {(p.sizes ?? []).map((s) => `${s.ml}ml`).join(", ")}
                   </span>
+                  {(p.discount ?? 0) > 0 && (
+                    <p className="text-[9px] tracking-[0.2em] text-[#c4a97d] mt-1">−{p.discount}% Deal</p>
+                  )}
                 </td>
                 <td className="py-3 pr-4">
                   <button

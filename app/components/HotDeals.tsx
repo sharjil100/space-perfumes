@@ -6,16 +6,6 @@ import { motion, useAnimationFrame } from "framer-motion";
 import { useProducts } from "./ProductsProvider";
 import { fadeUp, stagger } from "../lib/motion";
 
-const DEAL_IDS = [
-  { id: "khamrah",       discount: 15 },
-  { id: "sauvage-edp",   discount: 10 },
-  { id: "hawas",         discount: 20 },
-  { id: "eros-edp",      discount: 12 },
-  { id: "y-edp",         discount: 18 },
-  { id: "724-mfk",       discount: 8  },
-  { id: "akaster",       discount: 10 },
-];
-
 const lineColor: Record<string, string> = {
   Arabian:  "#d4a853",
   Designer: "#8aadcf",
@@ -24,14 +14,17 @@ const lineColor: Record<string, string> = {
 
 export default function HotDeals() {
   const { products } = useProducts();
-  const deals = DEAL_IDS.map(({ id, discount }) => {
-    const product = products.find((p) => p.id === id);
-    if (!product) return null;
-    const size = product.sizes[1] ?? product.sizes[0];
-    const original = size.price;
-    const sale = Math.round(original * (1 - discount / 100));
-    return { product, size, original, sale, discount };
-  }).filter(Boolean) as Array<{ product: NonNullable<ReturnType<typeof products.find>>; size: { ml: number; price: number }; original: number; sale: number; discount: number }>;
+  const deals = products
+    .filter((p) => (p.discount ?? 0) > 0)
+    .map((product) => {
+      const discount = product.discount!;
+      const size = product.sizes[1] ?? product.sizes[0];
+      const original = size.price;
+      const sale = Math.round(original * (1 - discount / 100));
+      return { product, size, original, sale, discount };
+    });
+
+  if (deals.length === 0) return null;
 
   // Duplicate for seamless loop
   const track = [...deals, ...deals];

@@ -15,6 +15,7 @@ export type Product = {
   description?: string;
   imageUrl?: string;
   inStock?: boolean;
+  discount?: number;
 };
 
 export const LINES = ["All", "Arabian", "Designer", "Niche"] as const;
