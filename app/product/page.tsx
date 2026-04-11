@@ -145,7 +145,10 @@ export default function ProductPage() {
       if (activeSort === "Price: Low to High") return a.sizes[0].price - b.sizes[0].price;
       if (activeSort === "Price: High to Low") return b.sizes[0].price - a.sizes[0].price;
       if (activeSort === "Name A-Z") return a.name.localeCompare(b.name);
-      return 0;
+      // Default: in-stock first
+      const aStock = a.inStock === false ? 1 : 0;
+      const bStock = b.inStock === false ? 1 : 0;
+      return aStock - bStock;
     });
 
   const activeFilters = (activeLine !== "All" ? 1 : 0) + (activeGender !== "All" ? 1 : 0);
