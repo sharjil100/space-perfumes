@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, useAnimationFrame } from "framer-motion";
 import { useProducts } from "./ProductsProvider";
 import { fadeUp, stagger } from "../lib/motion";
@@ -89,12 +88,10 @@ export default function HotDeals() {
             {/* Card */}
             <div className="aspect-[3/4] th-card overflow-hidden relative mb-4 transition-transform duration-500 group-hover:scale-[1.02]">
               {product.imageUrl ? (
-                <Image
+                <img
                   src={product.imageUrl}
                   alt={product.name}
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 640px) 208px, 240px"
+                  className="w-full h-full object-cover object-center"
                 />
               ) : (
                 <div className="w-full h-full th-card" />
