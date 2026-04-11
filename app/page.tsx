@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, useAnimationFrame } from "framer-motion";
 import HeroSlider from "./components/HeroSlider";
@@ -37,6 +38,141 @@ const lines = [
     image: "/niche-line.png",
   },
 ];
+
+// ── Fragrance Finder ─────────────────────────────────────────────────────────
+const FINDER_GENDERS = [
+  { label: "For Him", value: "Him", icon: "♂" },
+  { label: "For Her", value: "Her", icon: "♀" },
+  { label: "Unisex",  value: "Unisex", icon: "⚤" },
+];
+
+const FINDER_VIBES = [
+  { label: "Oud & Oriental",  key: "oud-oriental" },
+  { label: "Fresh & Clean",   key: "fresh-clean" },
+  { label: "Floral & Soft",   key: "floral-soft" },
+  { label: "Woody & Warm",    key: "woody-warm" },
+  { label: "Sweet & Gourmand", key: "sweet-gourmand" },
+  { label: "Bold & Spicy",    key: "bold-spicy" },
+];
+
+function FragranceFinder() {
+  const router = useRouter();
+  const [gender, setGender] = useState<string | null>(null);
+  const [vibe, setVibe] = useState<string | null>(null);
+
+  function go() {
+    const params = new URLSearchParams();
+    if (gender) params.set("gender", gender);
+    if (vibe) params.set("vibe", vibe);
+    router.push(`/product${params.toString() ? `?${params}` : ""}`);
+  }
+
+  return (
+    <motion.section
+      className="py-28 sm:py-36 px-6 border-b border-[rgba(196,169,125,0.1)] relative overflow-hidden"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={stagger}
+    >
+      {/* Subtle radial glow */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(196,169,125,0.03) 0%, transparent 70%)" }} />
+
+      <div className="max-w-2xl mx-auto text-center relative z-10">
+        <motion.p variants={fadeUp} className="text-[8px] tracking-[0.7em] text-[#c4a97d] uppercase mb-6">
+          Fragrance Finder
+        </motion.p>
+        <motion.h2
+          variants={fadeUp}
+          className="text-3xl sm:text-4xl md:text-5xl font-light text-[#e8e0d4] mb-3"
+          style={{ fontFamily: "var(--font-cormorant)" }}
+        >
+          Find your scent
+        </motion.h2>
+        <motion.p variants={fadeUp} className="text-[10px] tracking-[0.35em] text-[#8a8076] mb-16">
+          Two quick picks and we&apos;ll curate the rest
+        </motion.p>
+
+        {/* Step 1: Gender */}
+        <motion.div variants={fadeUp} className="mb-14">
+          <p className="text-[9px] tracking-[0.5em] text-[#8a8076] uppercase mb-6">
+            <span className="text-[#c4a97d]">01</span> &nbsp;I&apos;m shopping for
+          </p>
+          <div className="flex justify-center gap-4 sm:gap-5">
+            {FINDER_GENDERS.map((g) => (
+              <button
+                key={g.value}
+                onClick={() => setGender(gender === g.value ? null : g.value)}
+                className={`group relative w-28 sm:w-32 py-5 border transition-all duration-300 ${
+                  gender === g.value
+                    ? "border-[#c4a97d] bg-[rgba(196,169,125,0.06)]"
+                    : "border-[#1e1b18] hover:border-[#3a3530]"
+                }`}
+              >
+                <span className={`block text-lg mb-1.5 transition-colors duration-300 ${
+                  gender === g.value ? "text-[#c4a97d]" : "text-[#3a3530] group-hover:text-[#8a8076]"
+                }`}>{g.icon}</span>
+                <span className={`text-[9px] tracking-[0.35em] uppercase transition-colors duration-300 ${
+                  gender === g.value ? "text-[#c4a97d]" : "text-[#8a8076] group-hover:text-[#e8e0d4]"
+                }`}>{g.label}</span>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Divider */}
+        <motion.div variants={fadeIn} className="w-12 h-px bg-[rgba(196,169,125,0.15)] mx-auto mb-14" />
+
+        {/* Step 2: Vibe */}
+        <motion.div variants={fadeUp} className="mb-16">
+          <p className="text-[9px] tracking-[0.5em] text-[#8a8076] uppercase mb-6">
+            <span className="text-[#c4a97d]">02</span> &nbsp;I&apos;m drawn to
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto">
+            {FINDER_VIBES.map((v) => (
+              <button
+                key={v.key}
+                onClick={() => setVibe(vibe === v.key ? null : v.key)}
+                className={`py-4 px-3 border transition-all duration-300 text-center ${
+                  vibe === v.key
+                    ? "border-[#c4a97d] bg-[rgba(196,169,125,0.06)]"
+                    : "border-[#1e1b18] hover:border-[#3a3530]"
+                }`}
+              >
+                <span className={`text-[9px] tracking-[0.3em] uppercase transition-colors duration-300 ${
+                  vibe === v.key ? "text-[#c4a97d]" : "text-[#8a8076]"
+                }`}>{v.label}</span>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div variants={fadeUp}>
+          <button
+            onClick={go}
+            disabled={gender === null && vibe === null}
+            className={`text-[10px] tracking-[0.5em] uppercase px-14 py-4 transition-all duration-400 ${
+              gender !== null || vibe !== null
+                ? "bg-[#c4a97d] text-[#0c0b09] hover:bg-[#d4b98d] cursor-pointer"
+                : "border border-[#2a2520] text-[#3a3530] cursor-not-allowed"
+            }`}
+          >
+            Show My Scents
+          </button>
+          {(gender !== null || vibe !== null) && (
+            <button
+              onClick={() => { setGender(null); setVibe(null); }}
+              className="block mx-auto mt-4 text-[8px] tracking-[0.35em] text-[#5a5048] uppercase hover:text-[#8a8076] transition-colors"
+            >
+              Reset
+            </button>
+          )}
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}
 
 export default function Home() {
   const { products } = useProducts();
@@ -93,13 +229,11 @@ export default function Home() {
                   className="aspect-[3/4] overflow-hidden relative flex flex-col items-center justify-end pb-10"
                   style={{ background: line.gradient }}
                 >
-                  {/* Background image */}
                   <img
                     src={line.image}
                     alt={line.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  {/* Dark gradient overlay so text stays readable */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
                   <div className="relative z-10 text-center px-4">
@@ -164,93 +298,8 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* ── Featured line banners ── */}
-      <section className="py-20 px-6 lg:px-12 border-b border-[rgba(196,169,125,0.1)]">
-        <div className="max-w-7xl mx-auto">
-          {/* Top: Arabian full-width */}
-          <motion.div
-            className="featured-banner relative h-[22rem] flex flex-col items-center justify-center group overflow-hidden mb-6"
-            style={{ background: "radial-gradient(ellipse at 50% 60%, #3a2510 0%, #0c0b09 100%)" }}
-            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={scaleIn}
-          >
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-500" />
-            <div className="relative z-10 text-center px-8">
-              <p className="text-[8px] tracking-[0.6em] text-[#c4a97d] uppercase mb-3">Best Sellers</p>
-              <h3
-                className="text-4xl font-light text-[#e8e0d4] tracking-[0.35em] uppercase mb-3"
-                style={{ fontFamily: "var(--font-cormorant)" }}
-              >
-                Arabian Line
-              </h3>
-              <p className="text-[9px] text-[#8a8076] tracking-[0.35em] uppercase mb-8">
-                Oud · Amber · Musk · Oriental Warmth
-              </p>
-              <Link
-                href="/product"
-                className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase border-b border-[#c4a97d] pb-px hover:text-[#e8e0d4] hover:border-[#e8e0d4] transition-colors"
-              >
-                Shop Arabian
-              </Link>
-            </div>
-          </motion.div>
-          {/* Bottom: Designer + Niche side by side */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={stagger}
-          >
-            <motion.div
-              className="featured-banner relative h-[22rem] flex flex-col items-center justify-center group overflow-hidden"
-              style={{ background: "radial-gradient(ellipse at 50% 40%, #1a1624 0%, #0c0b09 100%)" }}
-              variants={scaleIn}
-            >
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-500" />
-              <div className="relative z-10 text-center px-8">
-                <p className="text-[8px] tracking-[0.6em] text-[#c4a97d] uppercase mb-3">Iconic Maisons</p>
-                <h3
-                  className="text-3xl font-light text-[#e8e0d4] tracking-[0.3em] uppercase mb-3"
-                  style={{ fontFamily: "var(--font-cormorant)" }}
-                >
-                  Designer Line
-                </h3>
-                <p className="text-[9px] text-[#8a8076] tracking-[0.3em] uppercase mb-8">
-                  Dior · Chanel · YSL · Versace · Armani
-                </p>
-                <Link
-                  href="/product"
-                  className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase border-b border-[#c4a97d] pb-px hover:text-[#e8e0d4] hover:border-[#e8e0d4] transition-colors"
-                >
-                  Shop Designer
-                </Link>
-              </div>
-            </motion.div>
-            <motion.div
-              className="featured-banner relative h-[22rem] flex flex-col items-center justify-center group overflow-hidden"
-              style={{ background: "radial-gradient(ellipse at 50% 50%, #161c12 0%, #0c0b09 100%)" }}
-              variants={scaleIn}
-            >
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-500" />
-              <div className="relative z-10 text-center px-8">
-                <p className="text-[8px] tracking-[0.6em] text-[#c4a97d] uppercase mb-3">Rare &amp; Artisan</p>
-                <h3
-                  className="text-3xl font-light text-[#e8e0d4] tracking-[0.3em] uppercase mb-3"
-                  style={{ fontFamily: "var(--font-cormorant)" }}
-                >
-                  Niche Line
-                </h3>
-                <p className="text-[9px] text-[#8a8076] tracking-[0.3em] uppercase mb-8">
-                  MFK · Serge Lutens · Memo Paris · Parfums de Marly
-                </p>
-                <Link
-                  href="/product"
-                  className="text-[9px] tracking-[0.55em] text-[#c4a97d] uppercase border-b border-[#c4a97d] pb-px hover:text-[#e8e0d4] hover:border-[#e8e0d4] transition-colors"
-                >
-                  Shop Niche
-                </Link>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      {/* ── Fragrance Finder ── */}
+      <FragranceFinder />
 
       {/* ── Customer Reviews ── */}
       <ReviewsSection />

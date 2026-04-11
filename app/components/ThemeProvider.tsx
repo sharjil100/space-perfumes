@@ -24,11 +24,11 @@ const DARK_VARS: Record<string, string> = {
 };
 
 const LIGHT_VARS: Record<string, string> = {
-  "--bg":     "#e8e8e8",
-  "--bg-2":   "#dcdcdc",
-  "--bg-card":"#d0d0d0",
+  "--bg":     "#f0f0f0",
+  "--bg-2":   "#f0e8db",
+  "--bg-card":"#e6ddd0",
   "--fg":     "#1a1612",
-  "--muted":  "#5a5450",
+  "--muted":  "#6b6258",
   "--accent": "#8a6a3a",
   "--border": "rgba(26,22,18,0.18)",
 };

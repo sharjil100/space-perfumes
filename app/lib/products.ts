@@ -24,6 +24,17 @@ export type Line = (typeof LINES)[number];
 export const GENDERS = ["All", "Him", "Her", "Unisex"] as const;
 export type Gender = (typeof GENDERS)[number];
 
+export const VIBES = {
+  "oud-oriental":   { label: "Oud & Oriental",  notes: ["Oud", "Incense", "Saffron", "Oriental", "Bakhoor", "Agarwood"] },
+  "fresh-clean":    { label: "Fresh & Clean",    notes: ["Fresh", "Citrus", "Aquatic", "Marine", "Green", "Neroli", "Ozonic", "Sea", "Water"] },
+  "floral-soft":    { label: "Floral & Soft",    notes: ["Floral", "Rose", "Jasmine", "Iris", "Peony", "Lily", "Violet", "Gardenia", "Tuberose"] },
+  "woody-warm":     { label: "Woody & Warm",     notes: ["Woody", "Sandalwood", "Cedar", "Vetiver", "Patchouli", "Guaiac", "Teak", "Driftwood"] },
+  "sweet-gourmand": { label: "Sweet & Gourmand", notes: ["Vanilla", "Praline", "Caramel", "Chocolate", "Coffee", "Honey", "Candy", "Coconut", "Tonka Bean"] },
+  "bold-spicy":     { label: "Bold & Spicy",     notes: ["Spicy", "Pepper", "Cardamom", "Ginger", "Clove", "Nutmeg", "Tobacco", "Leather", "Smoke"] },
+} as const;
+
+export type VibeKey = keyof typeof VIBES;
+
 // ──────────────────────────────────────────────────────────────────────────
 // CATALOG
 // ──────────────────────────────────────────────────────────────────────────

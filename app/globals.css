@@ -133,6 +133,27 @@ html.light .hover\:bg-\[\#c4a97d\]:hover      { background-color: #8a6a3a !impor
 html.light .hover\:text-\[\#0c0b09\]:hover    { color: #f0f0f0 !important; }
 html.light .hover\:bg-gray-800:hover          { background-color: #3a3530; }
 
+/* ── Additional text colors for light mode ── */
+html.light .text-\[\#5a5048\]   { color: #7a716a !important; }
+html.light .text-\[\#3a3530\]   { color: #8a8076 !important; }
+html.light .text-\[\#a09488\]   { color: #6b6258 !important; }
+
+/* ── Additional border / bg in light mode ── */
+html.light .border-\[\#1e1b18\]             { border-color: rgba(26,22,18,0.15) !important; }
+html.light .border-\[\#2a2520\]             { border-color: rgba(26,22,18,0.18) !important; }
+html.light .border-\[\#3a3530\]             { border-color: rgba(26,22,18,0.22) !important; }
+html.light .border-\[rgba\(196\,169\,125\,0\.08\)\] { border-color: rgba(26,22,18,0.08) !important; }
+html.light .bg-\[rgba\(196\,169\,125\,0\.06\)\]  { background-color: rgba(138,106,58,0.08) !important; }
+html.light .bg-\[rgba\(196\,169\,125\,0\.08\)\]  { background-color: rgba(138,106,58,0.10) !important; }
+html.light .bg-\[rgba\(196\,169\,125\,0\.03\)\]  { background-color: rgba(138,106,58,0.04) !important; }
+html.light .bg-\[\#c4a97d\]                     { background-color: #8a6a3a !important; }
+
+/* ── Hover for additional colors ── */
+html.light .hover\:border-\[\#5a5048\]:hover  { border-color: rgba(26,22,18,0.35) !important; }
+html.light .hover\:border-\[\#3a3530\]:hover  { border-color: rgba(26,22,18,0.35) !important; }
+html.light .hover\:text-\[\#8a8076\]:hover    { color: #4a4238 !important; }
+html.light .hover\:bg-\[\#d4b98d\]:hover      { background-color: #7a5e30 !important; }
+
 /* ── Select options dropdown ── */
 html.light select option { background: #f0e8db; color: #1a1612; }
 

@@ -128,7 +128,7 @@ export default function Footer() {
         className="border-t border-[rgba(196,169,125,0.1)] px-6 lg:px-12 py-6"
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
         variants={fadeIn}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">

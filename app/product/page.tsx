@@ -1,10 +1,10 @@
 ﻿"use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { LINES, GENDERS, type Line, type Gender, type Product, type DecantSize } from "../lib/products";
+import { LINES, GENDERS, VIBES, type Line, type Gender, type VibeKey, type Product, type DecantSize } from "../lib/products";
 import { useProducts } from "../components/ProductsProvider";
 import { useCart } from "../lib/cart";
 import { fadeUp, fadeIn, stagger, staggerFast, scaleIn, slideLeft } from "../lib/motion";
@@ -141,17 +141,36 @@ function Chip({
 // ── Page ────────────────────────────────────────────────────────────────────
 const SORT = ["Default", "Price: Low to High", "Price: High to Low", "Name A-Z"] as const;
 
-export default function ProductPage() {
+const VIBE_KEYS = Object.keys(VIBES) as VibeKey[];
+
+function ProductPageInner() {
   const router = useRouter();
+  const params = useSearchParams();
   const { products } = useProducts();
   const [activeLine, setActiveLine] = useState<Line>("All");
   const [activeGender, setActiveGender] = useState<Gender>("All");
+  const [activeVibe, setActiveVibe] = useState<VibeKey | null>(null);
   const [activeSort, setActiveSort] = useState<string>("Default");
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  useEffect(() => {
+    const g = params.get("gender");
+    const l = params.get("line");
+    const v = params.get("vibe");
+    if (g && (["Him", "Her", "Unisex"] as string[]).includes(g)) setActiveGender(g as Gender);
+    if (l && (["Arabian", "Designer", "Niche"] as string[]).includes(l)) setActiveLine(l as Line);
+    if (v && v in VIBES) setActiveVibe(v as VibeKey);
+  }, [params]);
+
   const filtered = products
     .filter((p) => activeLine === "All" || p.line === activeLine)
-    .filter((p) => activeGender === "All" || p.gender === activeGender)
+    .filter((p) => activeGender === "All" || p.gender === activeGender || p.gender === "Unisex")
+    .filter((p) => {
+      if (!activeVibe) return true;
+      const vibeNotes = VIBES[activeVibe].notes.map((n) => n.toLowerCase());
+      const matches = p.notes.filter((n) => vibeNotes.includes(n.toLowerCase())).length;
+      return matches >= 2;
+    })
     .sort((a, b) => {
       if (activeSort === "Price: Low to High") return a.sizes[0].price - b.sizes[0].price;
       if (activeSort === "Price: High to Low") return b.sizes[0].price - a.sizes[0].price;
@@ -162,7 +181,7 @@ export default function ProductPage() {
       return aStock - bStock;
     });
 
-  const activeFilters = (activeLine !== "All" ? 1 : 0) + (activeGender !== "All" ? 1 : 0);
+  const activeFilters = (activeLine !== "All" ? 1 : 0) + (activeGender !== "All" ? 1 : 0) + (activeVibe ? 1 : 0);
 
   return (
     <div className="th-bg min-h-screen pt-24">
@@ -284,9 +303,18 @@ export default function ProductPage() {
                   ))}
                 </div>
               </div>
+              <div>
+                <p className="text-[9px] tracking-[0.5em] text-[#c4a97d] uppercase mb-4">Vibe</p>
+                <div className="flex flex-wrap gap-2">
+                  <Chip label="All" active={activeVibe === null} onClick={() => setActiveVibe(null)} />
+                  {VIBE_KEYS.map((k) => (
+                    <Chip key={k} label={VIBES[k].label} active={activeVibe === k} onClick={() => setActiveVibe(k)} />
+                  ))}
+                </div>
+              </div>
             </div>
             <button
-              onClick={() => { setActiveLine("All"); setActiveGender("All"); setFiltersOpen(false); }}
+              onClick={() => { setActiveLine("All"); setActiveGender("All"); setActiveVibe(null); setFiltersOpen(false); }}
               className="mt-6 text-[9px] tracking-[0.4em] text-[#8a8076] uppercase hover:text-[#c4a97d] transition-colors border-b border-[rgba(138,128,118,0.3)] pb-px"
             >
               Clear All
@@ -335,5 +363,13 @@ export default function ProductPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProductPage() {
+  return (
+    <Suspense fallback={<div className="th-bg min-h-screen" />}>
+      <ProductPageInner />
+    </Suspense>
   );
 }
