@@ -255,12 +255,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <Link href={`/product/${p.id}`} className="group block">
                   <div className="aspect-[3/4] th-card overflow-hidden relative mb-3">
                     {p.imageUrl ? (
-                      <Image
+                      <img
                         src={p.imageUrl}
                         alt={p.name}
-                        fill
-                        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                        sizes="25vw"
+                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
                       <div className="w-full h-full th-card transition-transform duration-500 group-hover:scale-105" />
