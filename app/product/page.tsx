@@ -24,7 +24,17 @@ function ProductCard({ p }: { p: Product }) {
       <Link href={`/product/${p.id}`} className="block">
       {/* Image block */}
       <div className="aspect-[3/4] overflow-hidden th-card mb-4 relative">
-        <div className="w-full h-full th-card transition-transform duration-500 group-hover:scale-105" />
+        {p.imageUrl ? (
+          <img
+            src={p.imageUrl}
+            alt={p.name}
+            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full h-full th-card transition-transform duration-500 group-hover:scale-105 flex items-center justify-center">
+            <span className="text-[8px] tracking-[0.3em] text-[#8a8076] uppercase">No image</span>
+          </div>
+        )}
 
         {/* Badges */}
         <div className="absolute top-2 left-2 flex flex-col gap-1">
