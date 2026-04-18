@@ -20,8 +20,8 @@ const slides = [
   },
   {
     bg: "radial-gradient(ellipse at 55% 65%, #201a0c 0%, #13100a 40%, #0c0b09 100%)",
-    eyebrow: "Signature Line",
-    headline: "Crafted for those who remember.",
+    eyebrow: "Authentic Decants",
+    headline: "Worn by those who remember.",
     cta: "Shop Now",
     href: "/product",
   },

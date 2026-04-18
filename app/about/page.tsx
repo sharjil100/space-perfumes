@@ -64,13 +64,13 @@ export default function About() {
           Space Perfumes was born from a passion for extraordinary scents that transcend the everyday.
         </motion.p>
         <motion.p variants={fadeUp} className="text-sm leading-loose text-[#8a8076] mb-6">
-          We believe fragrance is more than a product — it is an experience, a memory, and an identity. Each bottle holds a story waiting to be worn, a feeling waiting to be rediscovered.
+          We believe fragrance is more than a product — it is an experience, a memory, and an identity. Each decant holds a story waiting to be worn, a feeling waiting to be rediscovered.
         </motion.p>
         <motion.p variants={fadeUp} className="text-sm leading-loose text-[#8a8076] mb-6">
-          Our carefully curated collection draws inspiration from the vastness of the cosmos, blending rare ingredients sourced from the finest corners of the world. From the deep resins of the Arabian Peninsula to the delicate florals of the Mediterranean coast, every element is chosen with intention.
+          Our carefully curated selection brings together the world&apos;s most celebrated fragrances — from the smoky ouds of the Arabian Peninsula to the crisp florals of European niche houses — all available as authentic decants, by the millilitre. We source directly from original, sealed bottles so you receive the real thing, nothing less.
         </motion.p>
         <motion.p variants={fadeUp} className="text-sm leading-loose text-[#8a8076]">
-          We are committed to craftsmanship, sustainability, and delivering a luxury experience to every customer. This is not just perfume — it is a journey through time, where emotions are never forgotten.
+          We are committed to authenticity, accessibility, and delivering a luxury experience to every customer. This is not just fragrance — it is a journey through time, where emotions are never forgotten.
         </motion.p>
       </motion.section>
 
@@ -86,16 +86,16 @@ export default function About() {
         >
           {[
             {
-              title: "Craftsmanship",
-              body: "Every fragrance is composed by master perfumers using the highest quality raw materials, blended in small batches to ensure the finest result.",
+              title: "Authenticity",
+              body: "Every decant we offer is poured directly from an original, sealed bottle of the parent fragrance. We never dilute, reformulate, or imitate. What you receive is the real thing — by the millilitre.",
             },
             {
-              title: "Sustainability",
-              body: "We source ethically and responsibly, working with suppliers who share our commitment to the environment and the communities they serve.",
+              title: "Curation",
+              body: "We carefully select from the world's most respected fragrance houses — Arabian, Designer, and Niche — choosing only scents that meet our standard for quality, longevity, and character.",
             },
             {
-              title: "Legacy",
-              body: "Fragrance connects generations. We craft scents that are worthy of becoming part of your story — and the stories of those who come after you.",
+              title: "Access",
+              body: "Fragrance connects generations. We believe everyone deserves access to the world's finest scents without committing to a full bottle. Experience iconic fragrances at your own pace, in the amounts that suit you.",
             },
           ].map((item) => (
             <motion.div key={item.title} className="border-t border-[rgba(196,169,125,0.15)] pt-8" variants={scaleIn}>

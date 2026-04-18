@@ -54,7 +54,7 @@ export default function Footer() {
             Space<br />Perfumes
           </Link>
           <p className="text-xs leading-relaxed text-[#8a8076] max-w-[18rem]">
-            A memory held in time. Luxury fragrances crafted to awaken the senses and carry you through time, where emotions are never forgotten.
+            A memory held in time. Authentic decants of the world&apos;s finest fragrances — brought to you by the millilitre.
           </p>
           <div className="flex flex-wrap gap-5 mt-8">
             {socialLinks.map((s) => (
