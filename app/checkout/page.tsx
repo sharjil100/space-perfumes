@@ -301,11 +301,11 @@ export default function CheckoutPage() {
                     </div>
                     <div className="border border-[rgba(196,169,125,0.2)] p-4 mt-4 space-y-2">
                       <p className="text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase mb-3">Bank Details</p>
-                      <Row label="Account Name" value="AROMATICA" />
-                      <Row label="Account ID" value="2077531670001" />
-                      <Row label="Bank Name" value="BRAC BANK LIMITED" />
-                      <Row label="Branch" value="NARAYANGANJ BRANCH" />
-                      <Row label="Routing" value="060671187" />
+                      <Row label="Account Name" value="Mustafa Dilir Daiyan" />
+                      <Row label="Account ID" value="1291570006538" />
+                      <Row label="Bank Name" value="Dutch Bangla Bank Ltd" />
+                      <Row label="Branch" value="O.R.Nizam Road Branch" />
+                      <Row label="Routing" value="090151480" />
                     </div>
                   </div>
                 </PaymentOption>
