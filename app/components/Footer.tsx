@@ -137,9 +137,9 @@ export default function Footer() {
           </p>
           <p className="text-[9px] tracking-[0.3em] text-[#8a8076] uppercase">
             Crafted by{" "}
-            <span className="text-[#c4a97d] hover:text-[#e8e0d4] transition-colors cursor-default tracking-[0.3em]">
+            <a href="https://thinkrstudio.com" target="_blank" rel="noopener noreferrer" className="text-[#c4a97d] hover:text-[#e8e0d4] transition-colors tracking-[0.3em]">
               Thinkr Studio
-            </span>
+            </a>
           </p>
         </div>
       </motion.div>
