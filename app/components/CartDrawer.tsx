@@ -56,12 +56,13 @@ export default function CartDrawer() {
                     <path d="M16 10a4 4 0 01-8 0" />
                   </svg>
                   <p className="text-[10px] tracking-[0.4em] text-[#8a8076] uppercase">Your cart is empty</p>
-                  <button
+                  <Link
+                    href="/product"
                     onClick={closeDrawer}
                     className="text-[9px] tracking-[0.45em] text-[#c4a97d] uppercase border-b border-[#c4a97d] pb-px hover:text-[#e8e0d4] hover:border-[#e8e0d4] transition-colors mt-2"
                   >
                     Continue Shopping
-                  </button>
+                  </Link>
                 </div>
               ) : (
                 <div className="flex flex-col gap-6">
@@ -154,12 +155,13 @@ export default function CartDrawer() {
                 >
                   Checkout
                 </Link>
-                <button
+                <Link
+                  href="/product"
                   onClick={closeDrawer}
                   className="block w-full text-center text-[9px] tracking-[0.4em] text-[#8a8076] uppercase hover:text-[#c4a97d] transition-colors py-2"
                 >
                   Continue Shopping
-                </button>
+                </Link>
               </div>
             )}
           </motion.div>

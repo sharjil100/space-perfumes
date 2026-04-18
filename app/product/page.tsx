@@ -164,7 +164,7 @@ function ProductPageInner() {
 
   const filtered = products
     .filter((p) => activeLine === "All" || p.line === activeLine)
-    .filter((p) => activeGender === "All" || p.gender === activeGender || p.gender === "Unisex")
+    .filter((p) => activeGender === "All" || p.gender === activeGender)
     .filter((p) => {
       if (!activeVibe) return true;
       const vibeNotes = VIBES[activeVibe].notes.map((n) => n.toLowerCase());
