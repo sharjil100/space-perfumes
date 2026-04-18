@@ -89,7 +89,7 @@ export default function LoadingSplash() {
           0%   { transform:translateY(0) translateX(0) scale(1); opacity:0.7; }
           100% { transform:translateY(-120px) translateX(var(--dx)) scale(0); opacity:0; }
         }
-        @keyframes bottleFall1 {
+        /* @keyframes bottleFall1 {
           0%   { animation-timing-function: cubic-bezier(0.55,0.055,0.675,0.19); opacity:0; transform:translateY(-520px) rotate(-9deg); }
           60%  { animation-timing-function: cubic-bezier(0.16,0.84,0.44,1); opacity:1; transform:translateY(18px) rotate(2deg); }
           76%  { transform:translateY(-8px) rotate(-1deg); }
@@ -103,7 +103,7 @@ export default function LoadingSplash() {
           77%  { transform:translateY(0) rotate(0deg); }
           80%  { animation-timing-function: cubic-bezier(0.4,0,1,1); transform:translateY(0) rotate(0deg); }
           100% { transform:translateY(0) translateX(-28px) rotate(-88deg); }
-        }
+        } */
         @keyframes heroBottleDrop {
           0%   { opacity:0; transform:translateY(-360px) scale(0.9) rotate(-4deg); animation-timing-function: cubic-bezier(0.55,0.055,0.675,0.19); }
           60%  { opacity:1; transform:translateY(12px) scale(1.02) rotate(1deg); animation-timing-function: cubic-bezier(0.16,0.84,0.44,1); }
@@ -113,8 +113,8 @@ export default function LoadingSplash() {
         }
         .sp-hero-bottle { animation: heroBottleDrop 1.3s both; }
         .sp-logo     { animation: logoReveal 1.5s cubic-bezier(.16,.84,.44,1) both; }
-        .sp-bottle-1 { animation: bottleFall1 1.4s both; }
-        .sp-bottle-2 { animation: bottleFall2 2.5s both; }
+        /* .sp-bottle-1 { animation: bottleFall1 1.4s both; }
+        .sp-bottle-2 { animation: bottleFall2 2.5s both; } */
         .sp-shimmer       { animation: shimmerLine 1s cubic-bezier(.22,.61,.36,1) both; }
         .sp-from-left     { animation: fromLeft 1s cubic-bezier(.22,.61,.36,1) both; }
         .sp-from-right    { animation: fromRight 1s cubic-bezier(.22,.61,.36,1) both; }
@@ -173,7 +173,7 @@ export default function LoadingSplash() {
           {/* Logo — drops from top */}
           <div className="sp-logo mb-1" style={{ animationDelay: "0.1s" }}>
             <img src="/space-logo.png" alt="Space Perfumes"
-              className="h-52 sm:h-64 md:h-80 w-auto object-contain" />
+              className="h-72 sm:h-80 md:h-96 w-auto object-contain drop-shadow-[0_12px_32px_rgba(196,169,125,0.35)]" />
           </div>
 
           {/* Top shimmer line */}
@@ -183,10 +183,10 @@ export default function LoadingSplash() {
           {/* Punchline flanked by falling decant bottles */}
           <div className="flex items-end justify-center">
 
-            <div className="sp-bottle-1 -mr-6 sm:-mr-10 relative z-10" style={{ animationDelay: "1.4s" }}>
+            {/* <div className="sp-bottle-1 -mr-6 sm:-mr-10 relative z-10" style={{ animationDelay: "1.4s" }}>
               <img src="/decant-1.png" alt=""
                 className="h-44 sm:h-56 md:h-72 w-auto object-contain" />
-            </div>
+            </div> */}
 
             <div className="flex flex-wrap justify-center items-baseline gap-x-3 gap-y-2"
               style={{ fontFamily: "var(--font-cormorant)" }}>
@@ -202,10 +202,10 @@ export default function LoadingSplash() {
                 style={{ animationDelay: "2.5s" }}>Time.</span>
             </div>
 
-            <div className="sp-bottle-2 -ml-6 sm:-ml-10 relative z-10" style={{ animationDelay: "1.8s" }}>
+            {/* <div className="sp-bottle-2 -ml-6 sm:-ml-10 relative z-10" style={{ animationDelay: "1.8s" }}>
               <img src="/decant-2.png" alt=""
                 className="h-44 sm:h-56 md:h-72 w-auto object-contain" />
-            </div>
+            </div> */}
 
           </div>
 

@@ -154,8 +154,25 @@ html.light .hover\:border-\[\#3a3530\]:hover  { border-color: rgba(26,22,18,0.35
 html.light .hover\:text-\[\#8a8076\]:hover    { color: #4a4238 !important; }
 html.light .hover\:bg-\[\#d4b98d\]:hover      { background-color: #7a5e30 !important; }
 
+/* ── Checkout page inputs & misc dark elements ── */
+html.light .bg-\[\#1e1b16\]          { background-color: #ddd7cc !important; }
+html.light .bg-\[\#111\]              { background-color: #ede8e0 !important; }
+html.light .border-\[\#2a2a2a\]      { border-color: rgba(26,22,18,0.20) !important; }
+html.light .border-\[\#444\]         { border-color: rgba(26,22,18,0.30) !important; }
+html.light .placeholder\:text-\[\#444\]::placeholder { color: #a09488 !important; }
+html.light .hover\:border-\[\#c4a97d\]\/50:hover     { border-color: rgba(138,106,58,0.4) !important; }
+
 /* ── Select options dropdown ── */
 html.light select option { background: #f0e8db; color: #1a1612; }
+
+/* ── Fragrance Finder ── */
+html.light #fragrance-finder                                        { background: linear-gradient(180deg,#ede8df 0%,#f0f0f0 100%) !important; }
+html.light #fragrance-finder .text-\[rgba\(196\,169\,125\,0\.6\)\] { color: rgba(138,106,58,0.75) !important; }
+html.light #fragrance-finder .bg-\[rgba\(196\,169\,125\,0\.18\)\]  { background-color: rgba(138,106,58,0.18) !important; }
+html.light #fragrance-finder .border-\[rgba\(196\,169\,125\,0\.22\)\] { border-color: rgba(138,106,58,0.3) !important; }
+html.light #fragrance-finder .text-\[rgba\(196\,169\,125\,0\.45\)\]  { color: rgba(138,106,58,0.55) !important; }
+html.light #fragrance-finder .text-\[rgba\(196\,169\,125\,0\.28\)\]  { color: rgba(138,106,58,0.4) !important; }
+html.light #fragrance-finder button:disabled { border-color: rgba(138,106,58,0.45) !important; color: rgba(138,106,58,0.6) !important; }
 
 /* ── FAQ hero: keep dark gradient in light mode, restore light text ── */
 html.light .faq-hero .text-\[\#e8e0d4\] { color: #e8e0d4 !important; }

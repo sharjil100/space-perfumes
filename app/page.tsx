@@ -41,9 +41,9 @@ const lines = [
 
 // ── Fragrance Finder ─────────────────────────────────────────────────────────
 const FINDER_GENDERS = [
-  { label: "For Him", value: "Him", icon: "♂" },
-  { label: "For Her", value: "Her", icon: "♀" },
-  { label: "Unisex",  value: "Unisex", icon: "⚤" },
+  { label: "For Him",  value: "Him",    icon: "♂", sub: "Masculine" },
+  { label: "For Her",  value: "Her",    icon: "♀", sub: "Feminine" },
+  { label: "Unisex",   value: "Unisex", icon: "⚤", sub: "All genders" },
 ];
 
 const FINDER_VIBES = [
@@ -67,24 +67,37 @@ function FragranceFinder() {
     router.push(`/product${params.toString() ? `?${params}` : ""}`);
   }
 
+  const ready = gender !== null || vibe !== null;
+
   return (
     <motion.section
+      id="fragrance-finder"
       className="py-28 sm:py-36 px-6 border-b border-[rgba(196,169,125,0.1)] relative overflow-hidden"
+      style={{ background: "linear-gradient(180deg, #111009 0%, #0c0b09 100%)" }}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
       variants={stagger}
     >
-      {/* Subtle radial glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(196,169,125,0.03) 0%, transparent 70%)" }} />
+      {/* Strong centered radial glow */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(196,169,125,0.13) 0%, transparent 70%)" }} />
+      {/* Gold drop line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24"
+        style={{ background: "linear-gradient(to bottom, rgba(196,169,125,0.8), transparent)" }} />
 
       <div className="max-w-2xl mx-auto text-center relative z-10">
-        <motion.p variants={fadeUp} className="text-[8px] tracking-[0.7em] text-[#c4a97d] uppercase mb-6">
-          Fragrance Finder
-        </motion.p>
+
+        {/* Label */}
+        <motion.div variants={fadeUp} className="flex items-center justify-center gap-5 mb-5 mt-4">
+          <div className="h-px w-16" style={{ background: "linear-gradient(to right, transparent, rgba(196,169,125,0.55))" }} />
+          <p className="text-[8px] tracking-[0.75em] text-[#c4a97d] uppercase">Fragrance Finder</p>
+          <div className="h-px w-16" style={{ background: "linear-gradient(to left, transparent, rgba(196,169,125,0.55))" }} />
+        </motion.div>
+
         <motion.h2
           variants={fadeUp}
-          className="text-3xl sm:text-4xl md:text-5xl font-light text-[#e8e0d4] mb-3"
+          className="text-5xl sm:text-6xl md:text-7xl font-light text-[#e8e0d4] mb-4"
           style={{ fontFamily: "var(--font-cormorant)" }}
         >
           Find your scent
@@ -95,52 +108,92 @@ function FragranceFinder() {
 
         {/* Step 1: Gender */}
         <motion.div variants={fadeUp} className="mb-14">
-          <p className="text-[9px] tracking-[0.5em] text-[#8a8076] uppercase mb-6">
-            <span className="text-[#c4a97d]">01</span> &nbsp;I&apos;m shopping for
-          </p>
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="h-px flex-1 max-w-[72px]" style={{ background: "linear-gradient(to right, transparent, rgba(196,169,125,0.4))" }} />
+            <p className="text-[9px] tracking-[0.5em] text-[#8a8076] uppercase whitespace-nowrap">
+              <span className="text-[#c4a97d] text-lg font-light mr-2" style={{ fontFamily: "var(--font-cormorant)" }}>01</span>
+              I&apos;m shopping for
+            </p>
+            <div className="h-px flex-1 max-w-[72px]" style={{ background: "linear-gradient(to left, transparent, rgba(196,169,125,0.4))" }} />
+          </div>
+
           <div className="flex justify-center gap-4 sm:gap-5">
             {FINDER_GENDERS.map((g) => (
               <button
                 key={g.value}
                 onClick={() => setGender(gender === g.value ? null : g.value)}
-                className={`group relative w-28 sm:w-32 py-5 border transition-all duration-300 ${
-                  gender === g.value
-                    ? "border-[#c4a97d] bg-[rgba(196,169,125,0.06)]"
-                    : "border-[#1e1b18] hover:border-[#3a3530]"
+                className={`group relative w-32 sm:w-40 py-8 transition-all duration-300 overflow-hidden ${
+                  gender === g.value ? "border border-[#c4a97d]" : "border border-[rgba(196,169,125,0.22)] hover:border-[rgba(196,169,125,0.6)]"
                 }`}
               >
-                <span className={`block text-lg mb-1.5 transition-colors duration-300 ${
-                  gender === g.value ? "text-[#c4a97d]" : "text-[#3a3530] group-hover:text-[#8a8076]"
+                {/* Subtle lift bg always visible */}
+                <div className="absolute inset-0 bg-[rgba(196,169,125,0.03)]" />
+                {/* Top accent bar — always on, brighter when selected */}
+                <div className={`absolute top-0 left-0 right-0 h-[2px] transition-all duration-300 ${
+                  gender === g.value ? "bg-[#c4a97d]" : "bg-[rgba(196,169,125,0.25)] group-hover:bg-[rgba(196,169,125,0.65)]"
+                }`} />
+                {/* Selection gradient fill */}
+                {gender === g.value && (
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(to bottom, rgba(196,169,125,0.14), transparent)" }} />
+                )}
+                {/* Hover glow */}
+                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: "linear-gradient(to bottom, rgba(196,169,125,0.07), transparent)" }} />
+
+                <span className={`relative block text-3xl mb-3 transition-all duration-300 ${
+                  gender === g.value ? "text-[#c4a97d]" : "text-[rgba(196,169,125,0.45)] group-hover:text-[rgba(196,169,125,0.9)]"
                 }`}>{g.icon}</span>
-                <span className={`text-[9px] tracking-[0.35em] uppercase transition-colors duration-300 ${
+                <span className={`relative block text-[9px] tracking-[0.4em] uppercase transition-colors duration-300 ${
                   gender === g.value ? "text-[#c4a97d]" : "text-[#8a8076] group-hover:text-[#e8e0d4]"
                 }`}>{g.label}</span>
+                <span className={`relative block text-[7px] tracking-[0.22em] mt-1.5 uppercase transition-colors duration-300 ${
+                  gender === g.value ? "text-[rgba(196,169,125,0.65)]" : "text-[rgba(196,169,125,0.28)] group-hover:text-[rgba(196,169,125,0.55)]"
+                }`}>{g.sub}</span>
               </button>
             ))}
           </div>
         </motion.div>
 
-        {/* Divider */}
-        <motion.div variants={fadeIn} className="w-12 h-px bg-[rgba(196,169,125,0.15)] mx-auto mb-14" />
+        {/* Diamond divider */}
+        <motion.div variants={fadeIn} className="flex items-center justify-center gap-4 mx-auto mb-14">
+          <div className="h-px w-14" style={{ background: "linear-gradient(to right, transparent, rgba(196,169,125,0.35))" }} />
+          <div className="w-2 h-2 rotate-45 border border-[rgba(196,169,125,0.55)]" />
+          <div className="h-px w-14" style={{ background: "linear-gradient(to left, transparent, rgba(196,169,125,0.35))" }} />
+        </motion.div>
 
         {/* Step 2: Vibe */}
         <motion.div variants={fadeUp} className="mb-16">
-          <p className="text-[9px] tracking-[0.5em] text-[#8a8076] uppercase mb-6">
-            <span className="text-[#c4a97d]">02</span> &nbsp;I&apos;m drawn to
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto">
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="h-px flex-1 max-w-[72px]" style={{ background: "linear-gradient(to right, transparent, rgba(196,169,125,0.4))" }} />
+            <p className="text-[9px] tracking-[0.5em] text-[#8a8076] uppercase whitespace-nowrap">
+              <span className="text-[#c4a97d] text-lg font-light mr-2" style={{ fontFamily: "var(--font-cormorant)" }}>02</span>
+              I&apos;m drawn to
+            </p>
+            <div className="h-px flex-1 max-w-[72px]" style={{ background: "linear-gradient(to left, transparent, rgba(196,169,125,0.4))" }} />
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
             {FINDER_VIBES.map((v) => (
               <button
                 key={v.key}
                 onClick={() => setVibe(vibe === v.key ? null : v.key)}
-                className={`py-4 px-3 border transition-all duration-300 text-center ${
-                  vibe === v.key
-                    ? "border-[#c4a97d] bg-[rgba(196,169,125,0.06)]"
-                    : "border-[#1e1b18] hover:border-[#3a3530]"
+                className={`group relative py-6 px-4 transition-all duration-300 text-center overflow-hidden ${
+                  vibe === v.key ? "border border-[#c4a97d]" : "border border-[rgba(196,169,125,0.22)] hover:border-[rgba(196,169,125,0.6)]"
                 }`}
               >
-                <span className={`text-[9px] tracking-[0.3em] uppercase transition-colors duration-300 ${
-                  vibe === v.key ? "text-[#c4a97d]" : "text-[#8a8076]"
+                <div className="absolute inset-0 bg-[rgba(196,169,125,0.03)]" />
+                <div className={`absolute top-0 left-0 right-0 h-[2px] transition-all duration-300 ${
+                  vibe === v.key ? "bg-[#c4a97d]" : "bg-[rgba(196,169,125,0.2)] group-hover:bg-[rgba(196,169,125,0.55)]"
+                }`} />
+                {vibe === v.key && (
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(to bottom, rgba(196,169,125,0.12), transparent)" }} />
+                )}
+                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: "linear-gradient(to bottom, rgba(196,169,125,0.06), transparent)" }} />
+                <span className={`relative text-[9px] tracking-[0.35em] uppercase transition-colors duration-300 leading-relaxed ${
+                  vibe === v.key ? "text-[#c4a97d]" : "text-[#8a8076] group-hover:text-[#e8e0d4]"
                 }`}>{v.label}</span>
               </button>
             ))}
@@ -151,16 +204,17 @@ function FragranceFinder() {
         <motion.div variants={fadeUp}>
           <button
             onClick={go}
-            disabled={gender === null && vibe === null}
-            className={`text-[10px] tracking-[0.5em] uppercase px-14 py-4 transition-all duration-400 ${
-              gender !== null || vibe !== null
+            disabled={!ready}
+            className={`text-[10px] tracking-[0.5em] uppercase px-16 py-5 transition-all duration-400 ${
+              ready
                 ? "bg-[#c4a97d] text-[#0c0b09] hover:bg-[#d4b98d] cursor-pointer"
-                : "border border-[#2a2520] text-[#3a3530] cursor-not-allowed"
+                : "cursor-not-allowed text-[rgba(196,169,125,0.3)]"
             }`}
+            style={!ready ? { border: "1px solid rgba(196,169,125,0.2)" } : {}}
           >
             Show My Scents
           </button>
-          {(gender !== null || vibe !== null) && (
+          {ready && (
             <button
               onClick={() => { setGender(null); setVibe(null); }}
               className="block mx-auto mt-4 text-[8px] tracking-[0.35em] text-[#5a5048] uppercase hover:text-[#8a8076] transition-colors"

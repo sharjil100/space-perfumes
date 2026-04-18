@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { sendOrderEmails } from "@/app/lib/mailer";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -13,10 +14,10 @@ export async function POST(request: Request) {
       return Response.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Store order in Supabase
     const { error } = await supabase.from("orders").insert({
       order_id: orderId,
       customer_name: `${customer.firstName} ${customer.lastName}`,
+      email: customer.email || null,
       phone: customer.phone,
       address: customer.address,
       apartment: customer.apartment || null,
@@ -38,9 +39,26 @@ export async function POST(request: Request) {
       return Response.json({ error: "Failed to save order" }, { status: 500 });
     }
 
-    // Send email notification via Supabase Edge Function or external service
-    // For now, we store the order and it can be reviewed in admin/Supabase dashboard
-    // You can add Resend/SendGrid integration later
+    // Send confirmation emails (non-blocking — don't fail the order if email fails)
+    if (customer.email) {
+      sendOrderEmails({
+        orderId,
+        customerName: `${customer.firstName} ${customer.lastName}`,
+        customerEmail: customer.email,
+        phone: customer.phone,
+        address: customer.address,
+        apartment: customer.apartment,
+        city: customer.city,
+        country: customer.country,
+        items,
+        shippingMethod: shipping.label,
+        shippingCost: shipping.price,
+        paymentMethod: payment,
+        subtotal,
+        discount: discount || 0,
+        total,
+      }).catch((err) => console.error("Email send error:", err));
+    }
 
     return Response.json({ success: true, orderId });
   } catch (err) {

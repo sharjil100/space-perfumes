@@ -19,7 +19,7 @@ const shippingOptions = [
   { label: "Outside Dhaka", price: 110 },
 ];
 
-type PaymentMethod = "cod" | "bank" | "bkash" | "nagad";
+type PaymentMethod = "cod" | "bank" | "bkash";
 
 const inputCls =
   "w-full bg-[#111] border border-[#2a2a2a] text-[#e8e0d4] text-sm px-4 py-3 focus:outline-none focus:border-[#c4a97d] transition-colors placeholder:text-[#444]";
@@ -37,6 +37,7 @@ export default function CheckoutPage() {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
 
   // Shipping
   const [shippingIdx, setShippingIdx] = useState(0);
@@ -63,7 +64,7 @@ export default function CheckoutPage() {
   }
 
   async function handleSubmit() {
-    if (!firstName.trim() || !lastName.trim() || !address.trim() || !city.trim() || !phone.trim()) {
+    if (!firstName.trim() || !lastName.trim() || !address.trim() || !city.trim() || !phone.trim() || !email.trim()) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -81,6 +82,7 @@ export default function CheckoutPage() {
       customer: {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
+        email: email.trim(),
         address: address.trim(),
         apartment: apartment.trim(),
         city: city.trim(),
@@ -223,6 +225,13 @@ export default function CheckoutPage() {
                   <label className="text-[9px] tracking-[0.35em] text-[#8a8076] uppercase block mb-1.5">Phone *</label>
                   <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+880..." className={inputCls} />
                 </div>
+
+                {/* Email */}
+                <div>
+                  <label className="text-[9px] tracking-[0.35em] text-[#8a8076] uppercase block mb-1.5">Email Address *</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className={inputCls} />
+                  <p className="text-[9px] text-[#5a5048] mt-1.5 tracking-[0.15em]">Your order confirmation will be sent here.</p>
+                </div>
               </div>
             </section>
 
@@ -301,41 +310,20 @@ export default function CheckoutPage() {
                   </div>
                 </PaymentOption>
 
-                {/* bKash */}
+                {/* bKash Send Money */}
                 <PaymentOption
                   id="bkash"
-                  label="Pay with bKash"
+                  label="Send Money with bKash"
                   selected={payment === "bkash"}
                   onSelect={() => setPayment("bkash")}
                 >
                   <div className="mt-4 space-y-3">
                     <div className="border border-[rgba(196,169,125,0.2)] p-4">
-                      <p className="text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase mb-2">bKash Payment (Merchant)</p>
-                      <p className="text-lg text-[#e8e0d4] tracking-wider font-light">+8801938036565</p>
+                      <p className="text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase mb-2">bKash Personal Number (Send Money)</p>
+                      <p className="text-lg text-[#e8e0d4] tracking-wider font-light">+8801996716966</p>
                     </div>
                     <ol className="space-y-2 text-[11px] leading-relaxed text-[#8a8076] list-decimal list-inside">
-                      <li>Use <strong className="text-[#e8e0d4]">(Make Payment)</strong> option from bKash app and use the number provided above.</li>
-                      <li><strong className="text-[#e8e0d4]">Copy the Order ID</strong> of this order and paste it in order Notes.</li>
-                      <li>The payment amount should be the Order <strong className="text-[#e8e0d4]">&quot;Total&quot;</strong> you see in this page.</li>
-                      <li>We will not process the order until the funds clear in our account.</li>
-                    </ol>
-                  </div>
-                </PaymentOption>
-
-                {/* Nagad */}
-                <PaymentOption
-                  id="nagad"
-                  label="Send Money with Nagad"
-                  selected={payment === "nagad"}
-                  onSelect={() => setPayment("nagad")}
-                >
-                  <div className="mt-4 space-y-3">
-                    <div className="border border-[rgba(196,169,125,0.2)] p-4">
-                      <p className="text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase mb-2">Nagad Personal Number (Send Money)</p>
-                      <p className="text-lg text-[#e8e0d4] tracking-wider font-light">01715620565</p>
-                    </div>
-                    <ol className="space-y-2 text-[11px] leading-relaxed text-[#8a8076] list-decimal list-inside">
-                      <li>Use <strong className="text-[#e8e0d4]">(Send Money)</strong> option from Nagad app and use the number provided above.</li>
+                      <li>Use <strong className="text-[#e8e0d4]">(Send Money)</strong> option from bKash app and use the number provided above.</li>
                       <li><strong className="text-[#e8e0d4]">Copy the Order ID</strong> of this order and paste it in the Payments <strong className="text-[#e8e0d4]">&quot;Reference Section&quot;</strong>.</li>
                       <li>The payment amount should be the Order <strong className="text-[#e8e0d4]">&quot;Total&quot;</strong> you see in this page.</li>
                       <li>We will not process the order until the funds clear in our account.</li>
