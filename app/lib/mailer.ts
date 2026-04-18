@@ -7,8 +7,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -196,13 +196,13 @@ function adminHtml(d: OrderEmailData) {
 export async function sendOrderEmails(data: OrderEmailData) {
   await Promise.all([
     transporter.sendMail({
-      from: `"Space Perfumes" <${process.env.GMAIL_USER}>`,
+      from: `"Space Perfumes" <${process.env.EMAIL_USER}>`,
       to: data.customerEmail,
       subject: `Order Confirmed — ${data.orderId} | Space Perfumes`,
       html: customerHtml(data),
     }),
     transporter.sendMail({
-      from: `"Space Perfumes" <${process.env.GMAIL_USER}>`,
+      from: `"Space Perfumes" <${process.env.EMAIL_USER}>`,
       to: ADMIN_EMAIL,
       subject: `New Order — ${data.orderId}`,
       html: adminHtml(data),
