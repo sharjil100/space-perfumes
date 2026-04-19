@@ -216,7 +216,7 @@ export default function LoadingSplash() {
           {/* Brand tag */}
           <span className="text-[9px] tracking-[0.7em] text-[#8a8076] uppercase sp-fade-up"
             style={{ animationDelay: "3.2s" }}>
-            Space Perfumes · est. 2026
+            Space Perfumes · est. 2025
           </span>
 
         </div>
