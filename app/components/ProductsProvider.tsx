@@ -35,7 +35,7 @@ export function useProducts() {
 
 function cloudinaryUrl(url: string | undefined | null): string | undefined {
   if (!url) return undefined;
-  return `https://res.cloudinary.com/diyelmgg3/image/fetch/f_auto,q_auto,w_600/${url}`;
+  return `https://res.cloudinary.com/diyelmgg3/image/fetch/f_auto,q_auto,w_600/${encodeURIComponent(url)}`;
 }
 
 export default function ProductsProvider({ children }: { children: React.ReactNode }) {
