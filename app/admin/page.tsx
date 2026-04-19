@@ -363,7 +363,7 @@ export default function AdminPage() {
           return;
         }
         const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(path);
-        imageUrl = urlData.publicUrl;
+        imageUrl = `${urlData.publicUrl}?t=${Date.now()}`;
       }
 
       const payload = {
