@@ -528,7 +528,7 @@ export default function AdminPage() {
               <Field label="Product ID (slug, no spaces)" required>
                 <input
                   value={form.id}
-                  onChange={(e) => setForm({ ...form, id: e.target.value.toLowerCase().replace(/\s+/g, "-") })}
+                  onChange={(e) => setForm({ ...form, id: e.target.value.toLowerCase().replace(/[\s/]+/g, "-") })}
                   disabled={!!editProduct}
                   placeholder="e.g. khamrah-oud"
                   className={inputCls + (editProduct ? " opacity-40 cursor-not-allowed" : "")}
