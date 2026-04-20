@@ -18,9 +18,14 @@ const lineColor: Record<string, string> = {
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { products } = useProducts();
+  const { products, hydrated } = useProducts();
   const product = products.find((p) => p.id === id);
-  if (!product) notFound();
+  if (!product && hydrated) notFound();
+  if (!product) return (
+    <div className="min-h-screen th-bg flex items-center justify-center">
+      <div className="w-6 h-6 border-2 border-[#c4a97d] border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
 
   const defaultSize = product.sizes[1] ?? product.sizes[0];
   const [selected, setSelected] = useState<DecantSize>(defaultSize ?? product.sizes[0]);

@@ -22,11 +22,13 @@ function normalizeDecantSizes(raw: SizeRow[]): SizeRow[] {
 type ProductsContextValue = {
   products: Product[];
   loading: boolean;
+  hydrated: boolean;
 };
 
 const ProductsContext = createContext<ProductsContextValue>({
   products: staticProducts,
   loading: false,
+  hydrated: false,
 });
 
 export function useProducts() {
@@ -41,6 +43,7 @@ function cloudinaryUrl(url: string | undefined | null): string | undefined {
 export default function ProductsProvider({ children }: { children: React.ReactNode }) {
   const [products, setProducts] = useState<Product[]>(staticProducts);
   const [loading, setLoading] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -52,6 +55,7 @@ export default function ProductsProvider({ children }: { children: React.ReactNo
       .then(({ data, error }) => {
         if (cancelled) return;
         setLoading(false);
+        setHydrated(true);
         if (error || !data || data.length === 0) return;
 
         const mapped: Product[] = data.map((row) => ({
@@ -81,7 +85,7 @@ export default function ProductsProvider({ children }: { children: React.ReactNo
   }, []);
 
   return (
-    <ProductsContext.Provider value={{ products, loading }}>
+    <ProductsContext.Provider value={{ products, loading, hydrated }}>
       {children}
     </ProductsContext.Provider>
   );
