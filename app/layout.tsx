@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Space Perfumes — A Memory Held in Time",
     description: "Discover luxury fragrances crafted to awaken the senses and carry you through time.",
-    images: [{ url: "/link-image.png", alt: "Space Perfumes" }],
+    images: [{ url: "/link-image2.png", alt: "Space Perfumes" }],
     type: "website",
     url: "https://www.spaceperfumes.com",
     siteName: "Space Perfumes",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Space Perfumes — A Memory Held in Time",
     description: "Discover luxury fragrances crafted to awaken the senses and carry you through time.",
-    images: ["/link-image.png"],
+    images: ["/link-image2.png"],
   },
 };
 
