@@ -19,6 +19,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.spaceperfumes.com"),
   title: "Space Perfumes — A Memory Held in Time",
   description: "Discover luxury fragrances crafted to awaken the senses and carry you through time.",
   icons: {
@@ -29,8 +30,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Space Perfumes — A Memory Held in Time",
     description: "Discover luxury fragrances crafted to awaken the senses and carry you through time.",
-    images: [{ url: "/link-image.png", width: 1200, height: 630, alt: "Space Perfumes" }],
+    images: [{ url: "/link-image.png", alt: "Space Perfumes" }],
     type: "website",
+    url: "https://www.spaceperfumes.com",
+    siteName: "Space Perfumes",
   },
   twitter: {
     card: "summary_large_image",
