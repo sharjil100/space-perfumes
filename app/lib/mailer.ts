@@ -1,16 +1,9 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 const ADMIN_EMAIL = "Spaceperfume27@gmail.com";
+const FROM = "Space Perfumes <hello@spaceperfumes.com>";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export interface OrderEmailData {
   orderId: string;
@@ -195,8 +188,8 @@ function adminHtml(d: OrderEmailData) {
 
 export async function sendOrderEmails(data: OrderEmailData) {
   const sends = [
-    transporter.sendMail({
-      from: `"Space Perfumes" <${process.env.EMAIL_USER}>`,
+    resend.emails.send({
+      from: FROM,
       to: ADMIN_EMAIL,
       subject: `New Order — ${data.orderId}`,
       html: adminHtml(data),
@@ -205,8 +198,8 @@ export async function sendOrderEmails(data: OrderEmailData) {
 
   if (data.customerEmail) {
     sends.push(
-      transporter.sendMail({
-        from: `"Space Perfumes" <${process.env.EMAIL_USER}>`,
+      resend.emails.send({
+        from: FROM,
         to: data.customerEmail,
         subject: `Order Confirmed — ${data.orderId} | Space Perfumes`,
         html: customerHtml(data),
