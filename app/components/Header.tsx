@@ -237,8 +237,6 @@ export default function Header() {
           {[
             { label: "Instagram", href: "https://www.instagram.com/space__perfumes_" },
             { label: "Facebook", href: "https://www.facebook.com/people/Space-Perfumes/61573867521816/" },
-            { label: "TikTok", href: "#" },
-            { label: "LinkedIn", href: "#" },
           ].map((s) => (
             <a
               key={s.label}

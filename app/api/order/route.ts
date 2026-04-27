@@ -39,29 +39,28 @@ export async function POST(request: Request) {
       return Response.json({ error: "Failed to save order" }, { status: 500 });
     }
 
-    // Send confirmation emails — awaited so Vercel doesn't kill the promise early
-    if (customer.email) {
-      try {
-        await sendOrderEmails({
-          orderId,
-          customerName: `${customer.firstName} ${customer.lastName}`,
-          customerEmail: customer.email,
-          phone: customer.phone,
-          address: customer.address,
-          apartment: customer.apartment,
-          city: customer.city,
-          country: customer.country,
-          items,
-          shippingMethod: shipping.label,
-          shippingCost: shipping.price,
-          paymentMethod: payment,
-          subtotal,
-          discount: discount || 0,
-          total,
-        });
-      } catch (err) {
-        console.error("Email send error:", err);
-      }
+    // Send emails — awaited so Vercel doesn't kill the promise early.
+    // Admin notification always fires; customer confirmation only if they provided an email.
+    try {
+      await sendOrderEmails({
+        orderId,
+        customerName: `${customer.firstName} ${customer.lastName}`,
+        customerEmail: customer.email || null,
+        phone: customer.phone,
+        address: customer.address,
+        apartment: customer.apartment,
+        city: customer.city,
+        country: customer.country,
+        items,
+        shippingMethod: shipping.label,
+        shippingCost: shipping.price,
+        paymentMethod: payment,
+        subtotal,
+        discount: discount || 0,
+        total,
+      });
+    } catch (err) {
+      console.error("Email send error:", err);
     }
 
     return Response.json({ success: true, orderId });

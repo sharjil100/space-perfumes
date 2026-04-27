@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 export interface OrderEmailData {
   orderId: string;
   customerName: string;
-  customerEmail: string;
+  customerEmail: string | null;
   phone: string;
   address: string;
   apartment?: string;
@@ -194,18 +194,25 @@ function adminHtml(d: OrderEmailData) {
 }
 
 export async function sendOrderEmails(data: OrderEmailData) {
-  await Promise.all([
-    transporter.sendMail({
-      from: `"Space Perfumes" <${process.env.EMAIL_USER}>`,
-      to: data.customerEmail,
-      subject: `Order Confirmed — ${data.orderId} | Space Perfumes`,
-      html: customerHtml(data),
-    }),
+  const sends = [
     transporter.sendMail({
       from: `"Space Perfumes" <${process.env.EMAIL_USER}>`,
       to: ADMIN_EMAIL,
       subject: `New Order — ${data.orderId}`,
       html: adminHtml(data),
     }),
-  ]);
+  ];
+
+  if (data.customerEmail) {
+    sends.push(
+      transporter.sendMail({
+        from: `"Space Perfumes" <${process.env.EMAIL_USER}>`,
+        to: data.customerEmail,
+        subject: `Order Confirmed — ${data.orderId} | Space Perfumes`,
+        html: customerHtml(data),
+      })
+    );
+  }
+
+  await Promise.all(sends);
 }
