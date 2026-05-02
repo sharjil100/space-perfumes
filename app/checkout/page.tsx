@@ -16,7 +16,7 @@ function generateOrderId() {
 
 const shippingOptions = [
   { label: "Inside Dhaka", price: 80 },
-  { label: "Outside Dhaka", price: 110 },
+  { label: "Outside Dhaka", price: 120 },
 ];
 
 type PaymentMethod = "cod" | "bank" | "bkash";
