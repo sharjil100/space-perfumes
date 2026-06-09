@@ -13,7 +13,12 @@ function normalizeDecantSizes(raw: SizeRow[]): SizeRow[] {
   const existing = new Map(raw.map((s) => [s.ml, s.price]));
   // average price-per-ml across all stored sizes for interpolation
   const avgPricePerMl = raw.reduce((sum, s) => sum + s.price / s.ml, 0) / raw.length;
-  return STANDARD_MLS.map((ml) => ({
+  // keep the standard sizes plus any extra sizes the admin added (e.g. 15ml),
+  // so nothing entered in the admin panel is silently dropped on the storefront
+  const mls = Array.from(new Set([...STANDARD_MLS, ...raw.map((s) => s.ml)])).sort(
+    (a, b) => a - b
+  );
+  return mls.map((ml) => ({
     ml,
     price: existing.has(ml) ? existing.get(ml)! : Math.round(avgPricePerMl * ml),
   }));
