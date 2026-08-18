@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { LINES, GENDERS, VIBES, type Line, type Gender, type VibeKey, type Product, type DecantSize } from "../lib/products";
 import { useProducts } from "../components/ProductsProvider";
+import { searchProducts } from "../lib/search";
 import { useCart } from "../lib/cart";
 import { fadeUp, fadeIn, stagger, staggerFast, scaleIn, slideLeft } from "../lib/motion";
 
@@ -152,17 +153,26 @@ function ProductPageInner() {
   const [activeVibe, setActiveVibe] = useState<VibeKey | null>(null);
   const [activeSort, setActiveSort] = useState<string>("Default");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const g = params.get("gender");
     const l = params.get("line");
     const v = params.get("vibe");
+    const q = params.get("q");
     if (g && (["Him", "Her", "Unisex"] as string[]).includes(g)) setActiveGender(g as Gender);
     if (l && (["Arabian", "Designer", "Niche"] as string[]).includes(l)) setActiveLine(l as Line);
     if (v && v in VIBES) setActiveVibe(v as VibeKey);
+    setQuery(q ?? "");
   }, [params]);
 
-  const filtered = products
+  const trimmedQuery = query.trim();
+
+  // With a query active, `searchProducts` has already ordered by relevance, so
+  // "Default" must preserve that order rather than re-sorting by stock.
+  const searched = trimmedQuery ? searchProducts(products, trimmedQuery) : products;
+
+  const filtered = searched
     .filter((p) => activeLine === "All" || p.line === activeLine)
     .filter((p) => activeGender === "All" || p.gender === activeGender)
     .filter((p) => {
@@ -172,9 +182,10 @@ function ProductPageInner() {
       return matches >= 2;
     })
     .sort((a, b) => {
-      if (activeSort === "Price: Low to High") return a.sizes[0].price - b.sizes[0].price;
-      if (activeSort === "Price: High to Low") return b.sizes[0].price - a.sizes[0].price;
+      if (activeSort === "Price: Low to High") return (a.sizes[0]?.price ?? 0) - (b.sizes[0]?.price ?? 0);
+      if (activeSort === "Price: High to Low") return (b.sizes[0]?.price ?? 0) - (a.sizes[0]?.price ?? 0);
       if (activeSort === "Name A-Z") return a.name.localeCompare(b.name);
+      if (trimmedQuery) return 0; // keep relevance order
       // Default: in-stock first
       const aStock = a.inStock === false ? 1 : 0;
       const bStock = b.inStock === false ? 1 : 0;
@@ -255,6 +266,40 @@ function ProductPageInner() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
 
+        {/* Search */}
+        <div className="mb-8">
+          <div className="relative max-w-md">
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search name, brand, note, inspired-by…"
+              className="w-full bg-transparent border-b border-[rgba(196,169,125,0.25)] pb-3 pr-8 text-[#e8e0d4] placeholder-[#8a8076] text-sm tracking-wider outline-none focus:border-[#c4a97d] transition-colors"
+            />
+            {trimmedQuery ? (
+              <button
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="absolute right-0 top-0 text-[#8a8076] hover:text-[#c4a97d] transition-colors"
+              >
+                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
+                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+                </svg>
+              </button>
+            ) : (
+              <svg className="absolute right-0 top-0 text-[#8a8076]" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
+              </svg>
+            )}
+          </div>
+          {trimmedQuery && (
+            <p className="mt-3 text-[9px] tracking-[0.3em] text-[#8a8076] uppercase">
+              {filtered.length} result{filtered.length !== 1 ? "s" : ""} for &ldquo;{trimmedQuery}&rdquo;
+            </p>
+          )}
+        </div>
+
         {/* Filter / Sort bar */}
         <div className="flex items-center justify-between mb-8">
           <button
@@ -314,7 +359,7 @@ function ProductPageInner() {
               </div>
             </div>
             <button
-              onClick={() => { setActiveLine("All"); setActiveGender("All"); setActiveVibe(null); setFiltersOpen(false); }}
+              onClick={() => { setActiveLine("All"); setActiveGender("All"); setActiveVibe(null); setQuery(""); setFiltersOpen(false); }}
               className="mt-6 text-[9px] tracking-[0.4em] text-[#8a8076] uppercase hover:text-[#c4a97d] transition-colors border-b border-[rgba(138,128,118,0.3)] pb-px"
             >
               Clear All
@@ -336,7 +381,17 @@ function ProductPageInner() {
         {/* Product grid */}
         {filtered.length === 0 ? (
           <motion.div className="py-32 text-center" initial="hidden" animate="show" variants={fadeIn}>
-            <p className="text-[10px] tracking-[0.5em] text-[#8a8076] uppercase">No fragrances match your filters</p>
+            <p className="text-[10px] tracking-[0.5em] text-[#8a8076] uppercase">
+              {trimmedQuery ? `No fragrances found for “${trimmedQuery}”` : "No fragrances match your filters"}
+            </p>
+            {trimmedQuery && activeFilters > 0 && (
+              <button
+                onClick={() => { setActiveLine("All"); setActiveGender("All"); setActiveVibe(null); }}
+                className="mt-5 text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase hover:text-[#e8e0d4] transition-colors"
+              >
+                Clear filters and search all lines
+              </button>
+            )}
           </motion.div>
         ) : (
           <motion.div

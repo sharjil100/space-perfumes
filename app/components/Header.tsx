@@ -6,7 +6,11 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 import { useProducts } from "./ProductsProvider";
 import { useCart } from "../lib/cart";
+import { searchProducts } from "../lib/search";
 import type { Product } from "../lib/products";
+
+/** Results shown inline in the overlay; the rest live on /product?q= */
+const PREVIEW_LIMIT = 10;
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -30,13 +34,9 @@ export default function Header() {
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const results: Product[] = query.trim().length >= 2
-    ? products.filter((p) => {
-        const words = query.toLowerCase().split(/\s+/).filter(Boolean);
-        const haystack = [p.name, p.house, p.line, ...p.notes].join(" ").toLowerCase();
-        return words.every((w) => haystack.includes(w));
-      }).slice(0, 8)
-    : [];
+  const trimmed = query.trim();
+  const matches: Product[] = trimmed ? searchProducts(products, trimmed) : [];
+  const results = matches.slice(0, PREVIEW_LIMIT);
 
   const lineColor: Record<string, string> = {
     Arabian:  "#d4a853",
@@ -49,6 +49,14 @@ export default function Header() {
 
   const handleResultClick = () => {
     closeSearch();
+  };
+
+  // Enter (or "view all") hands the query to the shop page, which shows every match.
+  const showAllResults = () => {
+    if (!trimmed) return;
+    const q = trimmed;
+    closeSearch();
+    router.push(`/product?q=${encodeURIComponent(q)}`);
   };
 
   useEffect(() => {
@@ -266,29 +274,32 @@ export default function Header() {
           </svg>
         </button>
 
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-xl max-h-[calc(100vh-9rem)] overflow-y-auto no-scrollbar">
           <p className="text-[9px] tracking-[0.55em] text-[#8a8076] uppercase text-center mb-8">Search</p>
 
           {/* Input */}
-          <div className="relative">
+          <form
+            className="relative"
+            onSubmit={(e) => { e.preventDefault(); showAllResults(); }}
+          >
             <input
               ref={inputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Name, house, note, line…"
+              placeholder="Name, brand, note, inspired-by…"
               className="w-full bg-transparent border-b border-[rgba(196,169,125,0.4)] pb-3 text-[#e8e0d4] placeholder-[#8a8076] text-sm tracking-wider outline-none focus:border-[#c4a97d] transition-colors pr-8"
             />
             <svg className="absolute right-0 top-0 text-[#8a8076]" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7" />
               <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
             </svg>
-          </div>
+          </form>
 
           {/* Hint */}
-          {query.trim().length < 2 && (
+          {!trimmed && (
             <p className="mt-4 text-[9px] tracking-[0.3em] text-[#8a8076] uppercase text-center">
-              Type at least 2 characters
+              Search by name, brand, note or inspiration
             </p>
           )}
 
@@ -321,8 +332,18 @@ export default function Header() {
             </ul>
           )}
 
+          {/* View all — the overlay only previews the top matches */}
+          {matches.length > results.length && (
+            <button
+              onClick={showAllResults}
+              className="mt-6 w-full text-[9px] tracking-[0.4em] text-[#c4a97d] uppercase text-center hover:text-[#e8e0d4] transition-colors"
+            >
+              View all {matches.length} results →
+            </button>
+          )}
+
           {/* No results */}
-          {query.trim().length >= 2 && results.length === 0 && (
+          {trimmed && matches.length === 0 && (
             <p className="mt-8 text-[9px] tracking-[0.4em] text-[#8a8076] uppercase text-center">
               No fragrances found for &ldquo;{query}&rdquo;
             </p>

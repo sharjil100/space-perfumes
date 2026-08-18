@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { supabase } from "../lib/supabase";
+import { matchesQuery } from "../lib/search";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 type SizeRow = { ml: number; price: number };
@@ -402,9 +403,8 @@ export default function AdminPage() {
   }
 
   const filtered = products.filter((p) => {
-    const matchSearch = !search ||
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.house.toLowerCase().includes(search.toLowerCase());
+    // Same folding as the storefront, so "lattafa" finds rows saved as "L A T T A F A".
+    const matchSearch = matchesQuery([p.name, p.house, p.id], search);
     const matchLine = lineFilter === "All" || p.line === lineFilter;
     return matchSearch && matchLine;
   });
